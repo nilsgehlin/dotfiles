@@ -1,6 +1,6 @@
 #!/bin/bash
 
-selected=$(find ~/work ~/personal -mindepth 1 -maxdepth 1 -type d | sed 's/\/home\/nige302566\///g' | fzf)
+selected=$(find ~/work ~/personal ~/external -mindepth 1 -maxdepth 1 -type d | sed 's/\/home\/nige302566\///g' | fzf)
 
 if [[ -z $selected ]]; then
     exit 0
