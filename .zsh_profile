@@ -1,8 +1,6 @@
 #env variables
 VIM="nvim"
 
-export DOTFILES=$HOME/dotfiles
-
 export PATH=$DOTFILES/scripts:$PATH
 
 #aliases

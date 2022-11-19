@@ -1,4 +1,5 @@
 export ZSH="$HOME/.oh-my-zsh"
+export DOTFILES=$HOME/personal/dotfiles
 
 ZSH_THEME="robbyrussell"
 
@@ -6,4 +7,4 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-source ~/.zsh_profile
+source $DOTFILES/.zsh_profile
