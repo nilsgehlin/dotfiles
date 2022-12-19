@@ -2,9 +2,13 @@
 VIM="nvim"
 
 export PATH=$DOTFILES/scripts:$PATH
+export PATH=/opt/cisco/anyconnect/bin:$PATH
 
 #aliases
 alias python=python3
+alias vim=$VIM
+alias vpnui=/opt/cisco/anyconnect/bin/vpnui
+alias autorandr="autorandr 2&> /dev/null"
 
 bindkey -s ^f "tmux-sessionizer\n"
 

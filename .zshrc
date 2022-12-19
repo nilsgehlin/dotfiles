@@ -1,7 +1,7 @@
 export ZSH="$HOME/.oh-my-zsh"
 export DOTFILES=$HOME/personal/dotfiles
 
-ZSH_THEME="robbyrussell"
+ZSH_THEME="nige"
 
 plugins=(git)
 
