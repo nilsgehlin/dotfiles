@@ -9,7 +9,7 @@ end
 
 require('packer').startup(function(use)
     -- Package manager
-    use 'wbthomason/packer.nvim'
+    use("wbthomason/packer.nvim")
 
     use { -- LSP Configuration & Plugins
         'neovim/nvim-lspconfig',
@@ -28,7 +28,7 @@ require('packer').startup(function(use)
         requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
     }
 
-    use 'rafamadriz/friendly-snippets'
+    use("rafamadriz/friendly-snippets")
 
     use { -- Highlight, edit, and navigate code
         'nvim-treesitter/nvim-treesitter',
@@ -43,13 +43,14 @@ require('packer').startup(function(use)
     }
 
     -- Git related plugins
-    use 'tpope/vim-fugitive'
-    use 'tpope/vim-rhubarb'
-    use 'lewis6991/gitsigns.nvim'
+    use("tpope/vim-fugitive")
+    use("tpope/vim-rhubarb")
+    use("lewis6991/gitsigns.nvim")
+    use("carlsmedstad/vim-bicep")
 
-    use 'ellisonleao/gruvbox.nvim'
-    use 'nvim-lualine/lualine.nvim' -- Fancier statusline
-    use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
+    use("ellisonleao/gruvbox.nvim")
+    use("nvim-lualine/lualine.nvim") -- Fancier statusline
+    use("numToStr/Comment.nvim") -- "gc" to comment visual regions/lines
 
     -- Fuzzy Finder (files, lsp, etc)
     use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -61,6 +62,9 @@ require('packer').startup(function(use)
         "windwp/nvim-autopairs",
         config = function() require("nvim-autopairs").setup {} end
     }
+
+    use("ThePrimeagen/harpoon")
+    use("ThePrimeagen/vim-be-good")
 
     -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
     local has_plugins, plugins = pcall(require, 'custom.plugins')

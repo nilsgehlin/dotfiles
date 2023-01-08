@@ -47,12 +47,19 @@ local on_attach = function(_, bufnr)
     end, { desc = 'Format current buffer with LSP' })
 end
 
+vim.cmd [[ autocmd BufNewFile,BufRead *.bicep set filetype=bicep ]]
+
+
+require'lspconfig'.bicep.setup{
+    cmd = { "dotnet", "/usr/local/bin/bicep/Bicep.LangServer.dll" };
+}
+
 -- Setup mason so it can manage external tooling
 require('mason').setup()
 
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 'clangd', 'pyright', 'eslint', 'tsserver' }
+local servers = { 'clangd', 'pyright', 'eslint', 'tsserver', 'jsonls', 'bashls', 'cssls', 'dockerls', 'graphql', 'html', 'sumneko_lua', 'spectral', 'sqlls' }
 
 -- Ensure the servers above are installed
 require('mason-lspconfig').setup {

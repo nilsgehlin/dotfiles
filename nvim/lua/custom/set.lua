@@ -45,6 +45,9 @@ vim.wo.signcolumn = 'no'
 
 vim.opt.colorcolumn = "80"
 
+-- Use system clipboard
+vim.opt.clipboard = 'unnamedplus'
+
 -- Set colorscheme
 vim.o.termguicolors = true
 vim.cmd [[colorscheme gruvbox]]
