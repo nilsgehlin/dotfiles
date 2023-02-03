@@ -43,7 +43,7 @@ vim.o.smartcase = true
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'no'
 
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "100"
 
 -- Use system clipboard
 vim.opt.clipboard = 'unnamedplus'
