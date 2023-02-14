@@ -22,11 +22,18 @@ install_packages \
     unzip \
     gettext \
     ninja-build \
-    nodejs \
+    npm \
+    xclip \
+    ripgrep \
+    fd-find \
+    default-jdk \
 
+# NPM packages
+sudo npm install --global n yarn
+sudo n install latest
 
 # Install oh-my-zsh 
-sudo curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Install neovim
 if [ -d "$HOME/external/neovim" ]; then
@@ -39,3 +46,14 @@ cd $HOME/external/neovim
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 cd -
+
+# Install Azure Core Tools
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
+sudo apt-get update
+sudo apt-get install azure-functions-core-tools-4
+
+# Install Az cli
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
