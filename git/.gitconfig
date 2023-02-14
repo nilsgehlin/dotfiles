@@ -1,0 +1,19 @@
+[user]
+	email = nils.gehlin@stadium.com
+	name = Nils Gehlin
+[core]
+	pager = cat
+	editor = nvim
+[diff]
+	tool = meld
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[alias]
+	l = log --oneline -10
+[init]
+	templatedir = /home/nige302566/personal/dotfiles/git-templates
+	defaultBranch = main
