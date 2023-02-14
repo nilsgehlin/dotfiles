@@ -27,9 +27,10 @@ install_packages \
     ripgrep \
     fd-find \
     default-jdk \
+    fzf \
 
 # NPM packages
-sudo npm install --global n yarn
+sudo npm install --global n yarn tsc
 sudo n install latest
 
 # Install oh-my-zsh 
