@@ -1,9 +1,13 @@
 #!/bin/bash
 
+sudo add-apt-repository ppa:neovim-ppa/unstable
+
+sudo apt-get update -y
+sudo apt-get upgrade -y
+
 install_packages() {
     sudo apt-get install -y $@
 }
-
 install_packages \
     git \
     tmux \
@@ -28,25 +32,26 @@ install_packages \
     fd-find \
     default-jdk \
     fzf \
+    neovim \
 
 # NPM packages
 sudo npm install --global n yarn tsc
 sudo n install latest
 
 # Install oh-my-zsh 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-# Install neovim
-if [ -d "$HOME/external/neovim" ]; then
-    cd $HOME/external/neovim
-    git pull
-else
-    git clone https://github.com/neovim/neovim.git $HOME/external/neovim
-fi
-cd $HOME/external/neovim
-make CMAKE_BUILD_TYPE=RelWithDebInfo
-sudo make install
-cd -
+# # Install neovim
+# if [ -d "$HOME/external/neovim" ]; then
+#     cd $HOME/external/neovim
+#     git pull
+# else
+#     git clone https://github.com/neovim/neovim.git $HOME/external/neovim
+# fi
+# cd $HOME/external/neovim
+# make CMAKE_BUILD_TYPE=RelWithDebInfo
+# sudo make install
+# cd -
 
 # Install Azure Core Tools
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg

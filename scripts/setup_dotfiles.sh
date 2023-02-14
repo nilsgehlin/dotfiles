@@ -5,6 +5,7 @@ wd=`pwd`
 mkdir -p ~/.config
 
 # zsh
+chsh -s $(which zsh)
 ln -sfn $wd/.zsh_profile ~/.zsh_profile
 ln -sfn $wd/.zshrc ~/.zshrc
 
