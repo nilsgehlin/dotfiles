@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 -- Set lualine as statusline
 -- See `:help lualine.txt`
 require('lualine').setup {
@@ -23,3 +24,4 @@ require('lualine').setup {
         lualine_z = {'location'}
     }
 }
+end

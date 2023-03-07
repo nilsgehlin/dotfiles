@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -129,4 +130,4 @@ cmp.setup {
         { name = 'luasnip' },
     },
 }
-
+end

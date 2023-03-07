@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 -- Gitsigns
 -- See `:help gitsigns.txt`
 require('gitsigns').setup {
@@ -42,3 +43,4 @@ require('gitsigns').setup {
     enable = false
   },
 }
+end

@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 -- setup must be called before loading the colorscheme
 -- Default options:
 require("gruvbox").setup({
@@ -19,4 +20,4 @@ require("gruvbox").setup({
 })
 vim.cmd("colorscheme gruvbox")
 
-
+end

@@ -21,3 +21,7 @@ ln -sfn $wd/nvim ~/.config/nvim
 # Tmux
 ln -sfn $wd/.tmux.conf ~/.tmux.conf
 
+# wsl browser stuff
+ln -sfn $wd/bin ~/bin
+
+

@@ -1,3 +1,4 @@
+if not vim.g.vscode then
 require('nvim-autopairs').setup({
     disable_filetype = { "TelescopePrompt" },
     disable_in_macro = false, -- disable when recording or executing a macro
@@ -17,4 +18,4 @@ require('nvim-autopairs').setup({
     map_c_w = false, -- map <c-w> to delete a pair if possible
 })
 
-
+end
