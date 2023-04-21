@@ -25,10 +25,12 @@ require('packer').startup(function(use)
 
     use { -- Autocompletion
         'hrsh7th/nvim-cmp',
-        requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+        requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip' },
     }
 
-    use("rafamadriz/friendly-snippets")
+    use { -- Autocompletion while typing
+        "ray-x/lsp_signature.nvim",
+      }
 
     use { -- Highlight, edit, and navigate code
         'nvim-treesitter/nvim-treesitter',
@@ -45,12 +47,10 @@ require('packer').startup(function(use)
     -- Git related plugins
     use("tpope/vim-fugitive")
     use("tpope/vim-rhubarb")
-    use("lewis6991/gitsigns.nvim")
-    use("carlsmedstad/vim-bicep")
 
-    use("ellisonleao/gruvbox.nvim")
+    use("Mofiqul/vscode.nvim")
     use("nvim-lualine/lualine.nvim") -- Fancier statusline
-    use("numToStr/Comment.nvim") -- "gc" to comment visual regions/lines
+    use("numToStr/Comment.nvim")     -- "gc" to comment visual regions/lines
 
     -- Fuzzy Finder (files, lsp, etc)
     use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -64,10 +64,9 @@ require('packer').startup(function(use)
     }
 
     use("ThePrimeagen/harpoon")
-    use("ThePrimeagen/vim-be-good")
-
-    use('RishabhRD/popfix')
-    use('RishabhRD/nvim-cheat.sh')
+    
+    use("nvim-tree/nvim-web-devicons")
+    use("nvim-tree/nvim-tree.lua")
 
     -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
     local has_plugins, plugins = pcall(require, 'custom.plugins')

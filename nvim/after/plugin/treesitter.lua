@@ -1,9 +1,27 @@
-if not vim.g.vscode then
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'lua', 'python', 'typescript', 'javascript', 'help' },
+    ensure_installed = {
+        'bash',
+        'bicep',
+        'c_sharp',
+        'gitcommit',
+        'git_config',
+        'gitignore',
+        'git_rebase',
+        'html',
+        'java',
+        'javascript',
+        'json',
+        'lua',
+        'markdown',
+        'markdown_inline',
+        'python',
+        'regex',
+        'typescript',
+        'yaml',
+    },
 
     highlight = { enable = true },
     indent = { enable = true },
@@ -67,5 +85,3 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
-
-end

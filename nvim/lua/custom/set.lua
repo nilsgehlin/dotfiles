@@ -1,6 +1,9 @@
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Indent stuff
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -14,7 +17,7 @@ vim.opt.scrolloff = 8
 -- Turn off text wrapping
 vim.opt.wrap = false
 
--- Set highlight on search
+-- Turn off highlight on search
 vim.o.hlsearch = false
 
 -- Make line numbers default
@@ -43,14 +46,12 @@ vim.o.smartcase = true
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'no'
 
-vim.opt.colorcolumn = "100"
-
 -- Use system clipboard
 vim.opt.clipboard = 'unnamedplus'
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme gruvbox]]
+vim.cmd [[colorscheme vscode]]
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
@@ -61,5 +62,3 @@ vim.o.completeopt = 'menuone,noselect'
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
-

@@ -1,4 +1,3 @@
-if not vim.g.vscode then
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -15,7 +14,7 @@ local on_attach = function(_, bufnr)
 
         vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
     end
-
+    
     nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
     nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
@@ -50,7 +49,6 @@ end
 
 vim.cmd [[ autocmd BufNewFile,BufRead *.bicep set filetype=bicep ]]
 
-
 require'lspconfig'.bicep.setup{
     cmd = { "dotnet", "/usr/local/bin/bicep/Bicep.LangServer.dll" };
 }
@@ -60,7 +58,18 @@ require('mason').setup()
 
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 'clangd', 'pyright', 'eslint', 'tsserver', 'jsonls', 'bashls', 'cssls', 'dockerls', 'graphql', 'html', 'sqlls' }
+local servers = {
+    'bashls',
+    'cssls',
+    'csharp_ls',
+    'dockerls',
+    'eslint',
+    'html',
+    'jsonls',
+    'pyright',
+    'sqlls',
+    'tsserver',
+ }
 
 -- Ensure the servers above are installed
 require('mason-lspconfig').setup {
@@ -130,4 +139,3 @@ cmp.setup {
         { name = 'luasnip' },
     },
 }
-end
