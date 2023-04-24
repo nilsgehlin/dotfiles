@@ -30,3 +30,7 @@ end)
 vim.keymap.set("x", "p", "\"_dP")
 
 vim.keymap.set("n", "<C-b>", vim.cmd.NvimTreeToggle)
+
+vim.keymap.set("n", "<C-g>", vim.cmd.Git)
+
+

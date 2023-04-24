@@ -25,7 +25,14 @@ require('packer').startup(function(use)
 
     use { -- Autocompletion
         'hrsh7th/nvim-cmp',
-        requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip' },
+        requires = { 
+            'hrsh7th/cmp-nvim-lsp', 
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-path',
+            'hrsh7th/cmp-nvim-lua',
+            'L3MON4D3/LuaSnip',
+        },
+
     }
 
     use { -- Autocompletion while typing
@@ -43,6 +50,8 @@ require('packer').startup(function(use)
         'nvim-treesitter/nvim-treesitter-textobjects',
         after = 'nvim-treesitter',
     }
+
+    use("kylechui/nvim-surround")
 
     -- Git related plugins
     use("tpope/vim-fugitive")
@@ -67,6 +76,7 @@ require('packer').startup(function(use)
     
     use("nvim-tree/nvim-web-devicons")
     use("nvim-tree/nvim-tree.lua")
+    use("mrjones2014/nvim-ts-rainbow")
 
     -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
     local has_plugins, plugins = pcall(require, 'custom.plugins')
