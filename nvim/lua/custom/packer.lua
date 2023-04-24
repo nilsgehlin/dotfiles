@@ -53,6 +53,8 @@ require('packer').startup(function(use)
 
     use("kylechui/nvim-surround")
 
+    use("skywind3000/asyncrun.vim")
+
     -- Git related plugins
     use("tpope/vim-fugitive")
     use("tpope/vim-rhubarb")

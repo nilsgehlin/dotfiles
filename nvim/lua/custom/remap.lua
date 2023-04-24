@@ -32,4 +32,5 @@ vim.keymap.set("x", "p", "\"_dP")
 vim.keymap.set("n", "<C-b>", vim.cmd.NvimTreeToggle)
 
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+vim.keymap.set("n", "<leader>gp", "<cmd>AsyncRun Git push<cr>")
 
