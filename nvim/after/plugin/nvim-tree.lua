@@ -7,3 +7,6 @@ require("nvim-tree").setup({
     dotfiles = true,
   },
 })
+
+vim.keymap.set("n", "<leader>pv", vim.cmd.NvimTreeToggle, { desc = '[P]roject [V]iew' })
+vim.keymap.set("n", "<C-b>", vim.cmd.NvimTreeToggle)

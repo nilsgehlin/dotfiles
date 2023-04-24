@@ -140,12 +140,9 @@ cmp.setup {
         { name = 'path' },
         { name = 'buffer', keyword_length = 5 },
         { name = 'nvim_lua', keyword_length = 5 },
-
-        -- 'hrsh7th/cmp-nvim-lsp', 
-        --     'hrsh7th/cmp-buffer',
-        --     'hrsh7th/cmp-path',
-        --     'hrsh7th/cmp-nvim-lua',
-        --     'L3MON4D3/LuaSnip',
-
     },
 }
+
+vim.keymap.set("n", "<leader>f", function()
+    vim.lsp.buf.format()
+end)

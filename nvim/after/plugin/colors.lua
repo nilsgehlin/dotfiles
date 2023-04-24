@@ -4,6 +4,10 @@ vim.o.background = 'dark'
 -- For light theme
 -- vim.o.background = 'light'
 
+-- Set colorscheme
+vim.o.termguicolors = true
+vim.cmd [[colorscheme vscode]]
+
 local c = require('vscode.colors').get_colors()
 require('vscode').setup({
     -- Alternatively set style in setup

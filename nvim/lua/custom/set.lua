@@ -1,9 +1,6 @@
 -- [[ Setting options ]]
 --- See `:help vim.o`
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 -- Indent stuff
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -49,10 +46,6 @@ vim.wo.signcolumn = 'no'
 -- Use system clipboard
 vim.opt.clipboard = 'unnamedplus'
 
--- Set colorscheme
-vim.o.termguicolors = true
-vim.cmd [[colorscheme vscode]]
-
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
@@ -62,3 +55,14 @@ vim.o.completeopt = 'menuone,noselect'
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+
+-- Highlight on yank
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+    group = highlight_group,
+    pattern = '*',
+})
+
