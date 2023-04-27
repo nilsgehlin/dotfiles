@@ -35,6 +35,8 @@ require('packer').startup(function(use)
 
     }
 
+    use("folke/trouble.nvim")
+
     use { -- Autocompletion while typing
         "ray-x/lsp_signature.nvim",
       }
