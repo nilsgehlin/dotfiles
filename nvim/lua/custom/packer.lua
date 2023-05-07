@@ -23,6 +23,8 @@ require('packer').startup(function(use)
         },
     }
 
+    use("ThePrimeagen/vim-be-good")
+
     use { -- Autocompletion
         'hrsh7th/nvim-cmp',
         requires = { 
