@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir -p $HOME/work $HOME/personal $HOME/external
+mkdir -p $HOME/projects
 
 ./scripts/install_packages.sh
 

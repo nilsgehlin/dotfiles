@@ -15,7 +15,7 @@ vim.opt.scrolloff = 8
 vim.opt.wrap = false
 
 -- Turn off highlight on search
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 
 -- Make line numbers default
 vim.wo.number = true

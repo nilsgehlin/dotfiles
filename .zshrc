@@ -1,5 +1,5 @@
 export ZSH="$HOME/.oh-my-zsh"
-export DOTFILES=$HOME/personal/dotfiles
+export DOTFILES=$HOME/dotfiles
 
 export BROWSER=/home/nige/bin/runedge.sh
 

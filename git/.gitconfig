@@ -15,5 +15,4 @@
 [alias]
 	l = log --oneline -10
 [init]
-	templatedir = /home/nige302566/personal/dotfiles/git-templates
 	defaultBranch = main
