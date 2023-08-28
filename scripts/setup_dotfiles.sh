@@ -24,4 +24,6 @@ ln -sfn $wd/.tmux.conf ~/.tmux.conf
 # wsl browser stuff
 ln -sfn $wd/bin ~/bin
 
+# set zsh as default
+chsh -s $(which zsh)
 

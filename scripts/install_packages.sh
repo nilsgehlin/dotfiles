@@ -39,7 +39,7 @@ install_packages \
     fzf \
     neovim \
     dotnet-sdk-6.0 \
-    maven \
+    dotnet-sdk-7.0 \
     apt-transport-https \
     software-properties-common
 
