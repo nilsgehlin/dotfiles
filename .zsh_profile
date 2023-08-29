@@ -3,6 +3,7 @@ VIM="nvim"
 
 export PATH=$DOTFILES/scripts:$PATH
 export PATH=/opt/cisco/anyconnect/bin:$PATH
+export PATH=$HOME/.dotnet/tools:$PATH
 
 #aliases
 alias python=python3

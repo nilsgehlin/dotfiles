@@ -1,26 +1,27 @@
 #!/bin/bash
+user_name=`whoami`
 
-selected=$(find ~/work ~/personal ~/external -mindepth 1 -maxdepth 1 -type d | sed 's/\/home\/nige302566\///g' | fzf)
+selected=$( find ~/projects -mindepth 2 -maxdepth 2 -type d | sed "s/\/home\/${user_name}\/projects\///g" | sed "/logs/d" | sed "/hooks/d" | sed "/refs/d"  | sed "/info/d"  | sed "/worktrees/d" | sed "/objects/d" | sed "/branches/d" | fzf)
 
 if [[ -z $selected ]]; then
     exit 0
 fi
 
-selected_name=$(basename "$selected" | tr . _)
+selected_name=$(echo $selected | sed "s/projects\///g"| sed "s/.git\//->/g"  )
 tmux_running=$(pgrep tmux)
 
 if [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -c ~/$selected
+    tmux new-session -s $selected_name -c ~/projects/$selected
     exit 0
 fi
 
 
 if ! tmux has-session -t=$selected_name 2> /dev/null; then
-    tmux new-session -ds $selected_name -c ~/$selected
+    tmux new-session -ds $selected_name -c ~/projects/$selected 
 fi
 
 if [[ -z $TMUX ]]; then
-    tmux attach -t $selected_name -c ~/$selected
+    tmux attach -t $selected_name -c ~/projects/$selected
     exit 0
 fi
 

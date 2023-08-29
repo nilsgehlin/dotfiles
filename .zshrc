@@ -1,5 +1,7 @@
 export ZSH="$HOME/.oh-my-zsh"
-export DOTFILES=$HOME/personal/dotfiles
+export DOTFILES=$HOME/projects/dotfiles.git/new-nvim-setup/
+
+export BROWSER=/home/nige/bin/runedge.sh
 
 ZSH_THEME="nige"
 
