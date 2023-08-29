@@ -99,12 +99,23 @@ return {
         }
       end
     }
-    require('ionide').setup {}
+    require('ionide').setup {
+      autostart = true,
+      on_attach = on_attach,
+      flags = {
+        debounce_text_changes = 150,
+      },
+      capabilities = capabilities
+    }
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+      vim.lsp.handlers.hover, { focusable = false }
+    )
   end,
   dependencies = {
     -- Automatically install LSPs to stdpath for neovim
     { 'williamboman/mason.nvim', config = true },
     'williamboman/mason-lspconfig.nvim',
+    'ionide/Ionide-vim',
 
     -- Useful status updates for LSP
     -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
