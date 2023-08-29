@@ -99,6 +99,7 @@ return {
         }
       end
     }
+    require('ionide').setup {}
   end,
   dependencies = {
     -- Automatically install LSPs to stdpath for neovim
