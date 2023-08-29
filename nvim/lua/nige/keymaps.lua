@@ -22,3 +22,7 @@ vim.keymap.set("n", "<leader>gp", "<cmd>copen<CR><cmd>AsyncRun git push<CR>")
 vim.keymap.set("n", "<leader>gf", "<cmd>copen<CR><cmd>AsyncRun git pull<CR>")
 vim.keymap.set("n", "<leader>c", ":noh<CR>")
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
