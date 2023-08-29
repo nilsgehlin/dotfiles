@@ -3,7 +3,6 @@ return {
   'tpope/vim-sleuth',
   'kylechui/nvim-surround',
   'skywind3000/asyncrun.vim',
-  { 'folke/which-key.nvim',  opts = {} },
   { 'numToStr/Comment.nvim', opts = {} },
 
   {
