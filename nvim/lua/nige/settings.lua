@@ -31,7 +31,15 @@ vim.opt.scrolloff = 8
 -- Save undo history
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+
+local homeDir
+if os.getenv("HOME") then
+    homeDir = os.getenv("HOME")
+else
+    homeDir = os.getenv("UserProfile")
+end
+
+vim.opt.undodir = homeDir .. "/.vim/undodir"
 vim.opt.undofile = true
 
 -- Case-insensitive searching UNLESS \C or capital in search
