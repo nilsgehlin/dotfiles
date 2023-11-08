@@ -37,7 +37,6 @@ install_packages \
     fd-find \
     default-jdk \
     fzf \
-    neovim \
     dotnet-sdk-6.0 \
     dotnet-sdk-7.0 \
     apt-transport-https \
