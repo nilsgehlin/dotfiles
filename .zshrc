@@ -1,7 +1,7 @@
 export ZSH="$HOME/.oh-my-zsh"
-export DOTFILES=$HOME/projects/dotfiles.git/main/
+export DOTFILES=$HOME/projects/personal/dotfiles
 
-export BROWSER=/home/nige/bin/runedge.sh
+#export BROWSER=/home/nige/bin/runedge.sh
 
 ZSH_THEME="nige"
 

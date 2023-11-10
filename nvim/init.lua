@@ -43,6 +43,17 @@ P.S. You can delete this when you're done too. It's your config now :)
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+--
+-- disable netrw at the very start of your init.lua, for nvim-tree
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- Indent stuff
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.smartindent = true
+vim.opt.breakindent = true
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
@@ -74,7 +85,7 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
 
   -- Detect tabstop and shiftwidth automatically
-  'tpope/vim-sleuth',
+  -- 'tpope/vim-sleuth',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
@@ -85,6 +96,7 @@ require('lazy').setup({
       -- Automatically install LSPs to stdpath for neovim
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
+      'jmederosalvarado/roslyn.nvim',
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -112,52 +124,52 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
-  {
-    -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      -- See `:help gitsigns.txt`
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-      on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
+  { 'folke/which-key.nvim',  opts = {} },
+  -- {
+  --   -- Adds git related signs to the gutter, as well as utilities for managing changes
+  --   'lewis6991/gitsigns.nvim',
+  --   opts = {
+  --     -- See `:help gitsigns.txt`
+  --     signs = {
+  --       add = { text = '+' },
+  --       change = { text = '~' },
+  --       delete = { text = '_' },
+  --       topdelete = { text = '‾' },
+  --       changedelete = { text = '~' },
+  --     },
+  --     on_attach = function(bufnr)
+  --       vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
+  --
+  --       -- don't override the built-in and fugitive keymaps
+  --       local gs = package.loaded.gitsigns
+  --       vim.keymap.set({ 'n', 'v' }, ']c', function()
+  --         if vim.wo.diff then
+  --           return ']c'
+  --         end
+  --         vim.schedule(function()
+  --           gs.next_hunk()
+  --         end)
+  --         return '<Ignore>'
+  --       end, { expr = true, buffer = bufnr, desc = 'Jump to next hunk' })
+  --       vim.keymap.set({ 'n', 'v' }, '[c', function()
+  --         if vim.wo.diff then
+  --           return '[c'
+  --         end
+  --         vim.schedule(function()
+  --           gs.prev_hunk()
+  --         end)
+  --         return '<Ignore>'
+  --       end, { expr = true, buffer = bufnr, desc = 'Jump to previous hunk' })
+  --     end,
+  --   },
+  -- },
 
-        -- don't override the built-in and fugitive keymaps
-        local gs = package.loaded.gitsigns
-        vim.keymap.set({ 'n', 'v' }, ']c', function()
-          if vim.wo.diff then
-            return ']c'
-          end
-          vim.schedule(function()
-            gs.next_hunk()
-          end)
-          return '<Ignore>'
-        end, { expr = true, buffer = bufnr, desc = 'Jump to next hunk' })
-        vim.keymap.set({ 'n', 'v' }, '[c', function()
-          if vim.wo.diff then
-            return '[c'
-          end
-          vim.schedule(function()
-            gs.prev_hunk()
-          end)
-          return '<Ignore>'
-        end, { expr = true, buffer = bufnr, desc = 'Jump to previous hunk' })
-      end,
-    },
-  },
-
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    -- Theme
+    'Mofiqul/vscode.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      vim.cmd.colorscheme 'vscode'
     end,
   },
 
@@ -168,24 +180,58 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'gruvbox',
         component_separators = '|',
         section_separators = '',
       },
     },
   },
 
+  -- {
+  --   -- Add indentation guides even on blank lines
+  --     'lukas-reineke/indent-blankline.nvim',
+  --   -- Enable `lukas-reineke/indent-blankline.nvim`
+  --   -- See `:help ibl`
+  --   main = 'ibl',
+  --   opts = {},
+  -- },
+
   {
-    -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help ibl`
-    main = 'ibl',
-    opts = {},
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
   },
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
+
+  -- autopairs
+  {
+    'windwp/nvim-autopairs',
+    opts = {
+      disable_filetype = { "TelescopePrompt" },
+      disable_in_macro = false,       -- disable when recording or executing a macro
+      disable_in_visualblock = false, -- disable when insert after visual block mode
+      disable_in_replace_mode = true,
+      ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=],
+      enable_moveright = true,
+      enable_afterquote = true,         -- add bracket pairs after quote
+      enable_check_bracket_line = true, --- check bracket in same line
+      enable_bracket_in_quote = true,   --
+      enable_abbr = false,              -- trigger abbreviation
+      break_undo = true,                -- switch for basic rule break undo sequence
+      check_ts = false,
+      map_cr = true,
+      map_bs = true,   -- map the <BS> key
+      map_c_h = false, -- Map the <C-h> key to delete a pair
+      map_c_w = false, -- map <c-w> to delete a pair if possible
+    }
+  },
 
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -209,8 +255,23 @@ require('lazy').setup({
   },
 
   {
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons"
+    },
+    config = function()
+      require("nvim-tree").setup {}
+    end
+  },
+
+  {
     -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    opts = {
+      ensure_installed = { "lua", "c_sharp" }
+    },
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
@@ -257,14 +318,20 @@ vim.o.clipboard = 'unnamedplus'
 vim.o.breakindent = true
 
 -- Save undo history
-vim.o.undofile = true
+vim.opt.swapfile = false
+vim.opt.backup = false
+
+local homeDir = os.getenv("HOME")
+
+vim.opt.undodir = homeDir .. "/.vim/undodir"
+vim.opt.undofile = true
 
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Keep signcolumn on by default
-vim.wo.signcolumn = 'yes'
+vim.wo.signcolumn = 'no'
 
 -- Decrease update time
 vim.o.updatetime = 250
@@ -291,6 +358,15 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous dia
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+
+-- nige keymaps
+vim.keymap.set({ 'n', 'v' }, '<C-f>', '<Nop>', { silent = true })
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-b>", vim.cmd.NvimTreeToggle)
+vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv")
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -348,7 +424,7 @@ local function live_grep_git_root()
   local git_root = find_git_root()
   if git_root then
     require('telescope.builtin').live_grep({
-      search_dirs = {git_root},
+      search_dirs = { git_root },
     })
   end
 end
@@ -461,6 +537,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
+  nmap('<leader>f', vim.lsp.buf.format, '[F]ormat')
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
@@ -488,6 +565,28 @@ local on_attach = function(_, bufnr)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
 end
+
+
+vim.api.nvim_create_user_command("NewClass",
+  function(args)
+    local fileExtension = vim.api.nvim_buf_get_name(0):match("[^.]+$")
+
+    local lines
+    if args.range > 0 then
+      lines = vim.fn.getline(args.line1, args.line2)
+    end
+
+    vim.ui.input({
+      promp = "Filename: "
+    }, function(input)
+      vim.cmd.e(string.format('%s.%s', input, fileExtension))
+        if args.range > 0 then
+          vim.api.nvim_buf_set_lines(0, 2, 2 + args.range, false, lines)
+        end
+      vim.cmd.w()
+    end)
+  end,
+  { desc = 'Create new c# class', range=true })
 
 -- document existing key chains
 require('which-key').register {
@@ -520,6 +619,7 @@ local servers = {
   -- rust_analyzer = {},
   -- tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+  -- csharp_ls = {},
 
   lua_ls = {
     Lua = {
@@ -533,8 +633,19 @@ local servers = {
 require('neodev').setup()
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- calocal pabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+local capabilities = vim.tbl_deep_extend("force",
+  vim.lsp.protocol.make_client_capabilities(),
+  require('cmp_nvim_lsp').default_capabilities()
+)
+capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+
+require("roslyn").setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
