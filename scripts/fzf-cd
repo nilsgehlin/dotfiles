@@ -1,0 +1,9 @@
+#!/bin/bash
+
+gitFolder=$(git rev-parse --show-toplevel)
+
+chosenDir=`find $(gitFolder) -type d | fzf`
+if [[ $chosenDir -neq "" ]] then
+    cd $chosenDir
+fi
+

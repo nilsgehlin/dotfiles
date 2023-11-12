@@ -19,6 +19,7 @@ install_packages \
     zsh \
     curl \
     wget \
+    fd-find \
     htop \
     tree \
     python3 \
