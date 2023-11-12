@@ -1,5 +1,3 @@
-vim.print("MoveToFile loaded...")
-
 local function ParseRoot()
   local parser = require("nvim-treesitter.parsers").get_parser()
   if parser == nil then
