@@ -37,7 +37,9 @@ vim.opt.rtp:prepend(lazypath)
 --
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
-require('lazy').setup("plugins")
+require('lazy').setup("custom/plugins")
+
+require('nige')
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -98,6 +100,9 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- Move text to new file
+vim.keymap.set('v', '<C-m>', ":NewFile<CR>")
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -243,76 +248,6 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
-local function ParseRoot()
-  local parser = require("nvim-treesitter.parsers").get_parser()
-  if parser == nil then
-    return nil
-  end
-
-  return parser:parse()[1]:root()
-end
-
-local function GetNameSpaceLine(root)
-  for node in root:iter_children() do
-    if node:type() == 'file_scoped_namespace_declaration' then
-      local startLine = node:range() + 1
-      local decl = vim.fn.getline(startLine)
-      return decl
-    end
-  end
-end
-
----@param root TSNode
----@param lineStart integer
-local function GetClassName(root, lineStart)
-  for root_node in root:iter_children() do
-    for node in root_node:iter_children() do
-      if node:type() == 'class_declaration' and vim.treesitter.is_in_node_range(node, lineStart, 1) then
-        for child_node in node:iter_children() do
-          if child_node:type() == 'identifier' then
-            return vim.treesitter.get_node_text(child_node, 0)
-          end
-        end
-      end
-    end
-  end
-
-  return ''
-end
-
-
-vim.api.nvim_create_user_command("NewFile",
-  function(args)
-    local fileExtension = vim.api.nvim_buf_get_name(0):match("[^.]+$")
-
-    local lines
-    local nameSpaceLine
-    local className = ""
-    if args.range > 0 then
-      lines = vim.fn.getline(args.line1, args.line2)
-      local rootNode = ParseRoot()
-      nameSpaceLine = GetNameSpaceLine(rootNode)
-      className = GetClassName(rootNode, args.line1)
-    end
-
-    vim.ui.input({
-        prompt = "Filename: ",
-        default = className
-      },
-      function(input)
-        if input == nil or input == "" then
-          return
-        end
-        local directory = vim.api.nvim_buf_get_name(0):match("(.*/)")
-        vim.cmd.e(string.format('%s/%s.%s', directory, input, fileExtension))
-        if args.range > 0 then
-          vim.api.nvim_buf_set_lines(0, 0, 1, false, { nameSpaceLine })
-          vim.api.nvim_buf_set_lines(0, 3, 3 + args.range, false, lines)
-        end
-        vim.cmd.w()
-      end)
-  end,
-  { desc = 'Create new file, containing the selected text', range = true })
 
 -- document existing key chains
 require('which-key').register {
