@@ -1,0 +1,25 @@
+- name: Install NPM
+  become: true
+  apt:
+    name:
+    - npm
+
+- name: Install N
+  npm:
+    name: n
+    global: yes
+
+- name: Install correct version of Node
+  shell: n latest
+
+- name: Install Yarn
+  npm:
+    name: yarn
+    global: yes
+
+
+- name: Install tsc
+  npm:
+    name: tsc
+    global: yes
+

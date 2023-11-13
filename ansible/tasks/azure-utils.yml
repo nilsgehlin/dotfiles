@@ -1,0 +1,27 @@
+
+- name: Setup Azure core tools repo
+  become: true
+  script: ../scripts/setup_azure_core_tools_repo.sh
+
+- name: Install Azure core tools
+  become: true
+  apt:
+    force_apt_get: true
+    update_cache: true
+    state: present
+    name: azure-functions-core-tools-4
+
+- name: Install az cli
+  become: true
+  shell: curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
+
+# Install Azure Core Tools
+# curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+# sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+
+# sudo apt-get update
+# sudo apt-get install azure-functions-core-tools-4
+
+# Install Az cli
+# curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash

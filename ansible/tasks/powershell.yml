@@ -1,0 +1,14 @@
+- name: Setup Powershell repo
+  become: true
+  script:
+    cmd: ../scripts/get_pwsh_repo.sh
+    chdir: /tmp
+
+- name: Install Powershell
+  become: true
+  apt:
+    force_apt_get: true
+    update_cache: true
+    state: present
+    name:
+    - powershell

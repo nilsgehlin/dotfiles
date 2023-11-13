@@ -1,0 +1,19 @@
+- name: Cloning Neovim repo
+  ansible.builtin.git:
+    repo: 'https://github.com/neovim/neovim.git'
+    dest: /home/nige/projects/external
+
+- name: Build Neovim
+  make:
+    chdir: /home/nige/projects/external
+    params:
+      CMAKE_BUILD_TYPE: RelWithDebInfo
+
+
+- name: Install Neovim
+  become: true
+  make:
+    chdir: /home/nige/projects/external
+    target: install
+
+
