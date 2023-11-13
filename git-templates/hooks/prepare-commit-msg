@@ -1,5 +1,0 @@
-COMMIT_MSG_FILE=$1
-
-latest_message=$(git log --oneline -1 --format=%b)
-
-sed -i "1s;^;${latest_message};" $COMMIT_MSG_FILE
