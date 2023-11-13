@@ -4,6 +4,7 @@
     name:
     - build-essential
     - software-properties-common
+    - git
     - cmake
     - ninja-build
     - curl

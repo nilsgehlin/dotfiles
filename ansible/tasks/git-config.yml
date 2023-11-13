@@ -1,0 +1,39 @@
+- name: Git name
+  git_config:
+    name: user.name
+    scope: global
+    value: "Nils Gehlin"
+
+- name: Git email (personal)
+  git_config:
+    name: user.email
+    scope: global
+    value: "nils.gehlin@gmail.com"
+  tags:
+  - personal
+
+- name: Git email (work)
+  git_config:
+    name: user.email
+    scope: global
+    value: "nils.gehlin@stadium.com"
+  tags:
+  - work
+
+- name: Git pager
+  git_config:
+    name: core.pager
+    scope: global
+    value: cat
+
+- name: Git editor
+  git_config:
+    name: core.editor
+    scope: global
+    value: nvim
+
+- name: Git l alias
+  git_config:
+    name: alias.l
+    scope: global
+    value: log --oneline -10
