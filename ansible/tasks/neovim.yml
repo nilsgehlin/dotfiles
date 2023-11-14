@@ -1,7 +1,14 @@
 - name: Cloning Neovim repo
-  ansible.builtin.git:
-    repo: 'https://github.com/neovim/neovim.git'
-    dest: /home/nige/projects/external/neovim
+  shell: git clone https://github.com/neovim/neovim.git neovim
+  args:
+    chdir: /home/nige/projects/external/neovim
+    creates: /home/nige/projects/external/neovim 
+
+
+- name: Updating Neovim repo
+  shell: git pull
+  args:
+    chdir: /home/nige/projects/external/neovim
 
 - name: Build Neovim
   make:
