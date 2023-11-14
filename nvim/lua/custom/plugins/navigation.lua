@@ -1,7 +1,15 @@
 return {
     {
         "nvim-tree/nvim-tree.lua",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
+        version = "*",
+        lazy = false,
+        dependencies = {
+            "nvim-tree/nvim-web-devicons"
+        },
+        config = function()
+            require("nvim-tree").setup {}
+            vim.keymap.set("n", "<C-b>", vim.cmd.NvimTreeToggle)
+        end
     },
     -- Fuzzy Finder (files, lsp, etc)
     {
