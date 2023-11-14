@@ -110,6 +110,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- nige keymaps
 vim.keymap.set({ 'n', 'v' }, '<C-f>', '<Nop>', { silent = true })
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv")

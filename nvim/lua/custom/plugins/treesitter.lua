@@ -88,6 +88,8 @@ return {
             end, opts.ensure_installed)
         end
         require("nvim-treesitter.configs").setup(opts)
+        vim.keymap.set('n', '<C-n>', function() require("nvim-treesitter.textobjects.move").goto_next_start('@function.outer'); vim.api.nvim_feedkeys("zz", "n", false) end)
+        vim.keymap.set('n', '<C-p>', function() require("nvim-treesitter.textobjects.move").goto_previous_start('@function.outer'); vim.api.nvim_feedkeys("zz", "n", false) end)
     end,
 
     dependencies = {
