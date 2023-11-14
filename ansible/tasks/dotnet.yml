@@ -1,4 +1,5 @@
 - name: Copy pref file to correct location
+  become: true
   ansible.builtin.copy:
     src: ../resources/99microsoft-dotnet.pref
     dest: /etc/apt/preferences.d/

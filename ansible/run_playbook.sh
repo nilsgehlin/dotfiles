@@ -17,4 +17,4 @@ else
 fi
 
 echo "ansible-playbook local.yml --skip-tags $tags_to_skip"
-ansible-playbook local.yml --skip-tags $tags_to_skip
+ansible-playbook local.yml --skip-tags $tags_to_skip --ask-become-pass
