@@ -17,10 +17,10 @@ vim.opt.smartindent = true
 vim.opt.breakindent = true
 
 -- Netrm
-vim.g.netrw_banner=0
-vim.g.netrw_browse_split=4
-vim.g.netrw_altv=1
-vim.g.netrw_liststyle=3
+vim.g.netrw_banner = 0
+vim.g.netrw_browse_split = 4
+vim.g.netrw_altv = 1
+vim.g.netrw_liststyle = 3
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
@@ -303,6 +303,12 @@ require('neodev').setup()
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- calocal pabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+vim.cmd [[ autocmd BufNewFile,BufRead *.bicep set filetype=bicep ]]
+
+require 'lspconfig'.bicep.setup {
+  cmd = { "dotnet", "/home/nige/projects/external/bicep/src/Bicep.LangServer/bin/Debug/net7.0/Bicep.LangServer.dll" },
+}
 
 local capabilities = vim.tbl_deep_extend("force",
   vim.lsp.protocol.make_client_capabilities(),

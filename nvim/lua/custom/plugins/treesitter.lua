@@ -11,6 +11,7 @@ return {
             'vimdoc',
             'vim',
             'bash',
+            'bicep',
             'c_sharp',
         },
 

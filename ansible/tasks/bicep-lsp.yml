@@ -1,0 +1,16 @@
+- name: Cloning Bicep repo
+  become: true
+  ansible.builtin.git:
+    repo: 'https://github.com/Azure/bicep.git'
+    dest: /usr/src/bicep
+
+- name: Update Bicep repo
+  shell: 'git checkout main && git pull'
+
+- name: Checkout latest tagged commit
+  shell: 'git describe --tags --abbrev=0 | xargs git checkout'
+
+- name: Build LSP
+  shell: 'dotnet publish'
+  args:
+    chdir: /home/nige/projects/external/bicep/src/Bicep.LangServer
