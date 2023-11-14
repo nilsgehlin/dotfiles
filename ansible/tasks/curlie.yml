@@ -1,0 +1,2 @@
+- name: Install curlie
+  shell: curl -sS https://webinstall.dev/curlie | bash

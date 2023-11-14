@@ -11,6 +11,8 @@ alias vim=$VIM
 alias vpnui=/opt/cisco/anyconnect/bin/vpnui
 alias fd=fdfind
 alias c='cd $((fd --type d | fzf) || echo ".")'
+alias curl=~/.local/bin/curlie
+alias ls=exa
 
 bindkey -s ^f "tmux-sessionizer\n"
 
