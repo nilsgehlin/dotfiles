@@ -12,6 +12,12 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.breakindent = true
 
+-- Netrm
+vim.g.netrw_banner=0
+vim.g.netrw_browse_split=4
+vim.g.netrw_altv=1
+vim.g.netrw_liststyle=3
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
