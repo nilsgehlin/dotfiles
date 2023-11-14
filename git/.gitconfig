@@ -2,7 +2,7 @@
 	email = nils.gehlin@stadium.com
 	name = Nils Gehlin
 [core]
-	pager = cat
+	pager = delta
 	editor = nvim
 [diff]
 	tool = meld

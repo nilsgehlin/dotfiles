@@ -24,7 +24,7 @@
   git_config:
     name: core.pager
     scope: global
-    value: cat
+    value: delta
 
 - name: Git editor
   git_config:
