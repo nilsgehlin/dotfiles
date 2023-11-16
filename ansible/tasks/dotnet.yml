@@ -1,8 +1,6 @@
-- name: Copy pref file to correct location
+- name: Setup Azure core tools repo
   become: true
-  ansible.builtin.copy:
-    src: ../resources/99microsoft-dotnet.pref
-    dest: /etc/apt/preferences.d/
+  script: ../scripts/setup-microsoft-feed.sh
 
 - name: Install dotnet sdk's
   become: true
@@ -11,5 +9,5 @@
     update_cache: true
     state: present
     name:
-    - dotnet-sdk-6.0
     - dotnet-sdk-7.0
+    - dotnet-sdk-8.0

@@ -319,6 +319,7 @@ local capabilities = vim.tbl_deep_extend("force",
 capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 
 require("roslyn").setup({
+  roslyn_version = "4.9.0-2.23563.2",
   on_attach = on_attach,
   capabilities = capabilities,
 })
