@@ -1,8 +1,19 @@
+#!/bin/bash
+
 project=$(az devops project list --query "value[].name" --output table | tail -n +3 | fzf)
+
+if [[ -z $project ]]; then
+    exit 0
+fi
+
 query="[].{ Id:codeReviewId Title:title Author:createdBy.displayName Repo:repository.name Status:status IsDraft:isDraft Created:creationDate}"
 prs=$(az repos pr list -p "${project}" --output table --query "${query}" | tail -n +3)
 chosen_pr=$(echo "${prs}" | fzf | tr -s ' ')
-echo $chosen_pr
+
+if [[ -z $project ]]; then
+    exit 0
+fi
+
 chosen_pr_id=$(echo "${chosen_pr}" | cut -d ' ' -f 1)
 chosen_pr_repo_name=$(az repos pr show --id ${chosen_pr_id} --query "repository.name" | sed "s/\"//g ")
 
@@ -11,8 +22,16 @@ chosen_pr_title=$(az repos pr show --id ${chosen_pr_id} --query "title" | sed "s
 
 repoUrl="stadium@vs-ssh.visualstudio.com:v3/stadium/${project}/${chosen_pr_repo_name}"
 checkout_name="${chosen_pr_id}-${chosen_pr_title}"
-git clone "${repoUrl}" "${checkout_name}"
-cd $checkout_name
+
+checkout_proj_path="PRs/${checkout_name}"
+checkout_full_path="${HOME}/projects/${checkout_proj_path}"
+git clone "${repoUrl}" $checkout_full_path
+cd $checkout_full_path
 az repos pr checkout --id ${chosen_pr_id}
+
+# ------------------------------------------------
+
+script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+$script_dir/tmux-sessionizer $checkout_proj_path
 
 
