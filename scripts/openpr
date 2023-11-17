@@ -10,7 +10,7 @@ query="[].{ Id:codeReviewId Title:title Author:createdBy.displayName Repo:reposi
 prs=$(az repos pr list -p "${project}" --output table --query "${query}" | tail -n +3)
 chosen_pr=$(echo "${prs}" | fzf | tr -s ' ')
 
-if [[ -z $project ]]; then
+if [[ -z $chosen_pr ]]; then
     exit 0
 fi
 

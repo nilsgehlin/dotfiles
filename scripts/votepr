@@ -1,0 +1,11 @@
+#!/bin/bash
+
+project=$(git remote -v | grep fetch | tr -s ' ' | cut -d ' ' -f 1 | cut -d '/' -f 3)
+pr_id=$(basename `pwd` | cut -d '-' -f 1)
+
+availableVotes=(approve approve-with-suggestions reject reset wait-for-author)
+
+vote=$((printf '%s\n' ${availableVotes[@]}) | fzf)
+
+az repos pr set-vote --id $pr_id --vote $vote
+

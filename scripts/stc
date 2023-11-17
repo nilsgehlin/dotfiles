@@ -1,0 +1,19 @@
+#!/bin/bash
+
+project=$(az devops project list --query "value[].name" --output table | tail -n +3 | fzf)
+
+if [[ -z $project ]]; then
+    exit 0
+fi
+
+query="[].{ Name:name }"
+repos=$(az repos list -p "${project}" --output table --query "${query}" | tail -n +3)
+chosen_repo=$(echo "${repos}" | fzf | tr -s ' ')
+
+if [[ -z $chosen_repo ]]; then
+    exit 0
+fi
+
+repoUrl="stadium@vs-ssh.visualstudio.com:v3/stadium/${project}/${chosen_repo}"
+
+git clone "${repoUrl}"
