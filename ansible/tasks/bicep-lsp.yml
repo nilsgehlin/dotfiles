@@ -1,8 +1,7 @@
 - name: Cloning Bicep repo
-  become: true
   ansible.builtin.git:
     repo: 'https://github.com/Azure/bicep.git'
-    dest: /usr/src/bicep
+    dest: /home/nige/projects/external/bicep
 
 - name: Update Bicep repo
   shell: 'git checkout main && git pull'

@@ -1,11 +1,9 @@
 [user]
-	email = nils.gehlin@gmail.com
+	email = nils.gehlin@stadium.com
 	name = Nils Gehlin
 [core]
 	pager = delta
 	editor = nvim
-[diff]
-	tool = meld
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
@@ -16,3 +14,9 @@
 	l = log --oneline -10
 [init]
 	defaultBranch = main
+[difftool]
+    prompt = true
+[diff]
+    tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
