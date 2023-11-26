@@ -6,7 +6,6 @@ return {
             -- Automatically install LSPs to stdpath for neovim
             'williamboman/mason.nvim',
             'williamboman/mason-lspconfig.nvim',
-            'jmederosalvarado/roslyn.nvim',
 
             -- Useful status updates for LSP
             -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -30,5 +29,11 @@ return {
             -- Adds a number of user-friendly snippets
             'rafamadriz/friendly-snippets',
         },
+    },
+    {
+        'jmederosalvarado/roslyn.nvim',
+    },
+    {
+        'ionide/Ionide-vim',
     }
 }

@@ -5,6 +5,9 @@ export PATH=$DOTFILES/scripts:$PATH
 export PATH=/opt/cisco/anyconnect/bin:$PATH
 export PATH=$HOME/.dotnet/tools:$PATH
 
+export DOTNET_ROOT=/usr/share/dotnet
+export PATH=$DOTNET_ROOT:$PATH
+
 #aliases
 alias python=python3
 alias vim=$VIM
