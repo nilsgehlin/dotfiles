@@ -22,4 +22,5 @@
     - include_tasks: tasks/git-delta.yml
     - include_tasks: tasks/git-config.yml
     - include_tasks: tasks/fsautocomplete.yml
+    - include_tasks: tasks/netcoredbg.yml
 
