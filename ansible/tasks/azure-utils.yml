@@ -2,6 +2,7 @@
 - name: Setup Azure core tools repo
   become: true
   script: ../scripts/setup_azure_core_tools_repo.sh
+  ignore_errors: true
 
 - name: Install Azure core tools
   become: true

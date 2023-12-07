@@ -4,6 +4,7 @@
   pre_tasks:
   - name: Update Apt
     become: true
+    ignore_errors: true
     apt:
       force_apt_get: true
       update_cache: true

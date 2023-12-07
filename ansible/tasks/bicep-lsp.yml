@@ -5,6 +5,8 @@
 
 - name: Update Bicep repo
   shell: 'git checkout main && git pull'
+  args:
+    chdir: /home/nige/projects/external/bicep
 
 - name: Checkout latest tagged commit
   shell: 'git describe --tags --abbrev=0 | xargs git checkout'

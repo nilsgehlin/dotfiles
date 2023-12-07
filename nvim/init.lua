@@ -86,7 +86,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Keep signcolumn on by default
-vim.wo.signcolumn = 'no'
+vim.wo.signcolumn = 'yes'
 
 -- Decrease update time
 vim.o.updatetime = 250
@@ -151,6 +151,7 @@ require('telescope').setup {
     },
   },
 }
+
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
@@ -396,6 +397,11 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+-- Debugging
+vim.keymap.set('n', '<leader>db', require("dap").toggle_breakpoint, { desc = 'Toggle breakpoint' })
+vim.keymap.set('n', '<leader>do', require("dapui").open, { desc = 'Open Debugger' })
+vim.keymap.set('n', '<F5>', require("dap").continue, { desc = 'Start/Continue debugging' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
