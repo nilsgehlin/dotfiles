@@ -1,10 +1,23 @@
 return {
     {
         -- Theme
-        'Mofiqul/vscode.nvim',
+        'rebelot/kanagawa.nvim',
+        lazy = false,
         priority = 1000,
         config = function()
-            vim.cmd.colorscheme 'vscode'
+            require('kanagawa').setup({
+                colors = { -- add/modify theme and palette colors
+                    theme = {
+                        all = {
+                            ui = {
+                                bg_gutter = "none"
+                            }
+                        }
+                    },
+                }
+            })
+
+            vim.cmd.colorscheme 'kanagawa'
         end,
     },
     {
@@ -14,7 +27,7 @@ return {
         opts = {
             options = {
                 icons_enabled = false,
-                theme = 'gruvbox',
+                theme = 'auto',
                 component_separators = '|',
                 section_separators = '',
             },
