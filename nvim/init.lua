@@ -232,7 +232,7 @@ local on_attach = function(server_name)
     end
 
     if (server_name == "fsautocomplete") then
-      nmap('<leader>f',  "<cmd>silent !fantomas %<CR>", '[F]ormat')
+      nmap('<leader>f', "<cmd>silent !fantomas %<CR>", '[F]ormat')
     else
       nmap('<leader>f', vim.lsp.buf.format, '[F]ormat')
     end
@@ -401,8 +401,21 @@ cmp.setup {
 
 -- Debugging
 vim.keymap.set('n', '<leader>db', require("dap").toggle_breakpoint, { desc = 'Toggle breakpoint' })
+vim.keymap.set('n', '<leader>dc', require("dap").clear_breakpoints, { desc = 'Toggle breakpoint' })
 vim.keymap.set('n', '<leader>do', require("dapui").open, { desc = 'Open Debugger' })
 vim.keymap.set('n', '<F5>', require("dap").continue, { desc = 'Start/Continue debugging' })
+vim.api.nvim_create_autocmd(
+  {
+    "BufNewFile",
+    "BufRead",
+  },
+  {
+    pattern = "*.cs",
+    callback = function()
+      vim.keymap.set('n', '<F5>', require('nige.picker').pick_dll, { desc = 'Start/Continue debugging' })
+    end
+  }
+)
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

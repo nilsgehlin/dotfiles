@@ -3,6 +3,7 @@ return {
         "mfussenegger/nvim-dap",
         config = function()
             local dap = require('dap')
+            local nige = require('nige.picker')
 
             dap.adapters.coreclr = {
                 type = 'executable',
@@ -16,7 +17,7 @@ return {
                     name = "launch - netcoredbg",
                     request = "launch",
                     program = function()
-
+                        return vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
                     end,
                 },
             }
