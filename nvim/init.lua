@@ -129,6 +129,10 @@ vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "<", "<gv")
 
+-- Obsidian keymaps
+vim.keymap.set("n", "<leader>ot", ":ObsidianToday<CR>")
+vim.keymap.set("n", "<leader>os", ":ObsidianSearch<CR>")
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
