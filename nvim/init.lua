@@ -16,6 +16,10 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.breakindent = true
 
+
+-- To add special rendering, used in Obsidian e.g.
+vim.opt.conceallevel = 1
+
 -- Netrm
 vim.g.netrw_banner = 0
 vim.g.netrw_browse_split = 4
@@ -129,9 +133,24 @@ vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "<", "<gv")
 
+
+vim.keymap.set("n", "<leader>df", function()
+  local answer = vim.fn.input('Delete current file? y/n: ')
+  if answer == "y" then
+    vim.cmd("call delete(expand('%')) | bdelete!")
+  end
+end)
+
 -- Obsidian keymaps
 vim.keymap.set("n", "<leader>ot", ":ObsidianToday<CR>")
 vim.keymap.set("n", "<leader>os", ":ObsidianSearch<CR>")
+vim.keymap.set("n", "<leader>of", ":ObsidianFollow<CR>")
+vim.keymap.set("n", "<leader>ob", ":ObsidianBacklinks<CR>")
+vim.keymap.set("n", "<leader>or", function()
+  local newName = vim.fn.input('New note name: ')
+  vim.cmd("ObsidianRename " .. newName)
+end)
+vim.keymap.set("n", "<leader>on", require("nige.obsidian_utils").new_note)
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -216,6 +235,7 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>sm', require('telescope.builtin').man_pages, { desc = '[S]earch [M]anpages' })
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
@@ -296,13 +316,8 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
   tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-  -- csharp_ls = {},
+  marksman = {},
 
   lua_ls = {
     Lua = {

@@ -20,13 +20,15 @@ return {
         workspaces = {
             {
                 name = "work",
-                path = "~/notes",
+                path = "~/projects/work/notes",
             },
             -- {
             --   name = "work",
             --   path = "~/vaults/work",
             -- },
         },
+
+        disable_frontmatter = true,
 
         note_id_func = function(title)
             return title
