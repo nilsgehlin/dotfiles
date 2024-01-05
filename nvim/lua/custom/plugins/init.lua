@@ -3,11 +3,11 @@ return {
     'tpope/vim-fugitive',
     'tpope/vim-rhubarb',
 
-    -- Useful plugin to show you pending keybinds.
     {
         "folke/trouble.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        opts = {},
+        keys = {
+            { "<leader>t", vim.cmd.TroubleToggle, desc = "Toggle Trouble" },
+        },
     },
-    { 'folke/which-key.nvim', opts = {} },
 }

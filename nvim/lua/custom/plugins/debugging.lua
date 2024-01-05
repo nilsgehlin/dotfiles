@@ -1,3 +1,26 @@
+local pick_dll = function()
+    local actions = require "telescope.actions"
+    local action_state = require "telescope.actions.state"
+    local dap = require('dap')
+
+    require("telescope.builtin").find_files({
+        find_command = { "rg", "--files", "--color", "never", "--binary", "--no-ignore", "-g", "**/bin/Debug/*/*.dll" },
+        attach_mappings = function(prompt_bufnr, _)
+            actions.select_default:replace(function()
+                actions.close(prompt_bufnr)
+                local selection = action_state.get_selected_entry()
+                dap.run({
+                    type = "coreclr",
+                    name = "launch - netcoredbg",
+                    request = "launch",
+                    program = selection[1],
+                })
+            end)
+            return true
+        end,
+    })
+end
+
 return {
     {
         "mfussenegger/nvim-dap",
@@ -23,10 +46,30 @@ return {
             }
 
             require('dap.ext.vscode').load_launchjs()
+
+            -- Debugging
+            vim.keymap.set('n', '<leader>db', require("dap").toggle_breakpoint, { desc = 'Toggle breakpoint' })
+            vim.keymap.set('n', '<leader>dc', require("dap").clear_breakpoints, { desc = 'Toggle breakpoint' })
+            vim.keymap.set('n', '<leader>do', require("dapui").open, { desc = 'Open Debugger' })
+            vim.keymap.set('n', '<F5>', require("dap").continue, { desc = 'Start/Continue debugging' })
+            vim.api.nvim_create_autocmd(
+                {
+                    "BufNewFile",
+                    "BufRead",
+                },
+                {
+                    pattern = "*.cs",
+                    callback = function()
+                        vim.keymap.set('n', '<F5>', pick_dll,
+                            { desc = 'Start/Continue debugging' })
+                    end
+                }
+            )
         end
     },
     {
         "rcarriga/nvim-dap-ui",
+        dependencies = { "mfussenegger/nvim-dap" },
         config = function()
             local dap, dapui = require("dap"), require("dapui")
 
