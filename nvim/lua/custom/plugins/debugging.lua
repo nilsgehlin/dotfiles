@@ -26,7 +26,6 @@ return {
         "mfussenegger/nvim-dap",
         config = function()
             local dap = require('dap')
-            local nige = require('nige.picker')
 
             dap.adapters.coreclr = {
                 type = 'executable',
