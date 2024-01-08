@@ -21,10 +21,10 @@ return {
                 name = "work",
                 path = "~/projects/work/notes",
             },
-            -- {
-            --   name = "work",
-            --   path = "~/vaults/work",
-            -- },
+            {
+                name = "personal",
+                path = "~/projects/personal/notes",
+            },
         },
 
         disable_frontmatter = true,

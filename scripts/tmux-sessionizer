@@ -2,7 +2,7 @@
 user_name=`whoami`
 
 if [[ $# -eq 0 ]]; then
-    selected=$( find ~/projects -mindepth 2 -maxdepth 2 -type d | sed "s/\/home\/${user_name}\/projects\///g" | sed "/logs/d" | sed "/hooks/d" | sed "/refs/d"  | sed "/info/d"  | sed "/worktrees/d" | sed "/objects/d" | sed "/branches/d" | fzf)
+    selected=$( find -L ~/projects -mindepth 2 -maxdepth 2 -type d | sed "s/\/home\/${user_name}\/projects\///g" | sed "/logs/d" | sed "/hooks/d" | sed "/refs/d"  | sed "/info/d"  | sed "/worktrees/d" | sed "/objects/d" | sed "/branches/d" | fzf)
 else
     selected=$1
 fi
