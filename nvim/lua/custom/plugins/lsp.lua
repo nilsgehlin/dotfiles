@@ -21,10 +21,11 @@ end
 
 return {
     {
-        'neovim/nvim-lspconfig',
+        'williamboman/mason-lspconfig.nvim',
         dependencies = {
+            'neovim/nvim-lspconfig',
             'williamboman/mason.nvim',
-            'williamboman/mason-lspconfig.nvim',
+            'jmederosalvarado/roslyn.nvim',
             { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
             { 'folke/neodev.nvim', opts = {} }
         },
@@ -36,10 +37,8 @@ return {
                 vim.lsp.protocol.make_client_capabilities(),
                 require('cmp_nvim_lsp').default_capabilities()
             )
-            capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 
             require("roslyn").setup({
-                roslyn_version = "4.9.0-2.23563.2",
                 on_attach = on_attach("roslyn"),
                 capabilities = capabilities,
             })
@@ -123,9 +122,6 @@ return {
             'hrsh7th/cmp-nvim-lsp',
             'rafamadriz/friendly-snippets',
         },
-    },
-    {
-        'jmederosalvarado/roslyn.nvim',
     },
     {
         'ionide/Ionide-vim',
