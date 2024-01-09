@@ -32,12 +32,6 @@ return {
             require('mason').setup()
             require('mason-lspconfig').setup()
 
-            -- Bicep
-            vim.cmd [[ autocmd BufNewFile,BufRead *.bicep set filetype=bicep ]]
-            require 'lspconfig'.bicep.setup {
-                cmd = { "dotnet", "/home/nige/projects/external/bicep/src/Bicep.LangServer/bin/Debug/net7.0/Bicep.LangServer.dll" },
-            }
-
             local capabilities = vim.tbl_deep_extend("force",
                 vim.lsp.protocol.make_client_capabilities(),
                 require('cmp_nvim_lsp').default_capabilities()
@@ -54,6 +48,7 @@ return {
                 tsserver = {},
                 marksman = {},
                 lua_ls = {},
+                bicep = {},
             }
 
             local mason_lspconfig = require 'mason-lspconfig'
