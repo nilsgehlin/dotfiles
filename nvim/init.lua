@@ -18,6 +18,9 @@ require('lazy').setup("custom/plugins", {
   change_detection = {
     notify = false,
   },
+  dev = {
+    path = "~/projects/personal",
+  },
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`

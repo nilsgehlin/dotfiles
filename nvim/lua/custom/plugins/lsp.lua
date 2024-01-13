@@ -23,9 +23,9 @@ return {
     {
         'williamboman/mason-lspconfig.nvim',
         dependencies = {
-            'neovim/nvim-lspconfig',
+            { 'neovim/nvim-lspconfig', dev = false },
             'williamboman/mason.nvim',
-            'jmederosalvarado/roslyn.nvim',
+            { 'jmederosalvarado/roslyn.nvim', dev = false },
             { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
             { 'folke/neodev.nvim', opts = {} }
         },
@@ -44,7 +44,7 @@ return {
             })
 
             local servers = {
-                tsserver = {},
+                -- tsserver = {},
                 marksman = {},
                 lua_ls = {},
                 bicep = {},
