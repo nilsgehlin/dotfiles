@@ -48,6 +48,7 @@ return {
                 marksman = {},
                 lua_ls = {},
                 bicep = {},
+                bashls = {},
             }
 
             local mason_lspconfig = require 'mason-lspconfig'
