@@ -12,9 +12,6 @@ ln -sfn $wd/.zshrc ~/.zshrc
 #oh-my-zsh
 ln -sfn $wd/nige.zsh-theme ~/.oh-my-zsh/custom/themes/nige.zsh-theme
 
-# Git
-ln -sfn $wd/git/.gitconfig ~/.gitconfig 
-
 # Neovim
 ln -sfn $wd/nvim ~/.config/nvim
 
