@@ -2,8 +2,9 @@ return {
     -- Git related plugins
     {
         'tpope/vim-fugitive',
+        cmd = { "Git" },
         keys = {
-            { "<leader>gs", "<CMD>Git<CR>", desc = "Open Fugitive" },
+            { "<leader>gs", "<CMD>Git<CR>",      desc = "Open Fugitive" },
             { "<leader>gp", "<CMD>Git push<CR>", desc = "Open Fugitive" },
         },
 
@@ -16,5 +17,14 @@ return {
         keys = {
             { "<leader>t", vim.cmd.TroubleToggle, desc = "Toggle Trouble" },
         },
+    },
+    {
+        "iamcco/markdown-preview.nvim",
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        keys = {
+            { "<leader>mp", "<CMD>MarkdownPreviewToggle<CR>", desc = "[M]arkdown [P]review" },
+        },
+        ft = { "markdown" },
+        build = function() vim.fn["mkdp#util#install"]() end,
     },
 }
