@@ -44,7 +44,7 @@ return {
             })
 
             local servers = {
-                -- tsserver = {},
+                tsserver = {},
                 marksman = {},
                 lua_ls = {},
                 bicep = {},
