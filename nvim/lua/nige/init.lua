@@ -55,7 +55,7 @@ vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "<", "<gv")
-vim.keymap.set("n", "<leader>pv", ":Ex<CR>")
+vim.keymap.set("n", "<leader>pv", function () require("oil").open(vim.fn.getcwd()) end)
 
 vim.keymap.set("n", "<leader>df", function()
   local answer = vim.fn.input('Delete current file? y/n: ')
