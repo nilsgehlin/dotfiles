@@ -21,13 +21,19 @@ end
 
 return {
     {
+        "ray-x/lsp_signature.nvim",
+        event = "VeryLazy",
+        opts = {},
+        config = function(_, opts) require 'lsp_signature'.setup(opts) end
+    },
+    {
         'williamboman/mason-lspconfig.nvim',
         dependencies = {
-            { 'neovim/nvim-lspconfig', dev = false },
+            { 'neovim/nvim-lspconfig',        dev = false },
             'williamboman/mason.nvim',
             { 'jmederosalvarado/roslyn.nvim', dev = false },
-            { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
-            { 'folke/neodev.nvim', opts = {} }
+            { 'j-hui/fidget.nvim',            tag = 'legacy', opts = {} },
+            { 'folke/neodev.nvim',            opts = {} }
         },
         config = function()
             require('mason').setup()
