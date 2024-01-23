@@ -27,4 +27,12 @@ return {
         ft = { "markdown" },
         build = function() vim.fn["mkdp#util#install"]() end,
     },
+    {
+        "folke/zen-mode.nvim",
+        opts = {},
+        cmd = { "ZenMode" },
+        keys = {
+            { "<leader>zz", "<CMD>ZenMode<CR>"},
+        },
+    },
 }
