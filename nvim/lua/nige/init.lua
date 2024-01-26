@@ -10,7 +10,7 @@ vim.opt.smartindent = true
 vim.opt.breakindent = true
 
 -- Enable concealing, used in Obisidan
-vim.opt.conceallevel = 1
+vim.opt.conceallevel = 3
 
 vim.o.hlsearch = false
 
@@ -55,23 +55,30 @@ vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "<", "<gv")
-vim.keymap.set("n", "<leader>pv", function () require("oil").open(vim.fn.getcwd()) end)
+vim.keymap.set("n", "<leader>pv", function() require("oil").open(vim.fn.getcwd()) end)
 
 vim.keymap.set("n", "<leader>df", function()
-  local answer = vim.fn.input('Delete current file? y/n: ')
-  if answer == "y" then
-    vim.cmd("call delete(expand('%')) | bdelete!")
-  end
+    local answer = vim.fn.input('Delete current file? y/n: ')
+    if answer == "y" then
+        vim.cmd("call delete(expand('%')) | bdelete!")
+    end
 end)
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = '*',
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+    group = highlight_group,
+    pattern = '*',
 })
 
+vim.opt.concealcursor = 'nvic'
+
+-- Concel \r in files with mixed line endings
+vim.api.nvim_create_autocmd('BufEnter', {
+    pattern = '*',
+    command = "syn match CR /\r$/ conceal"
+})
