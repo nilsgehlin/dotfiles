@@ -27,13 +27,13 @@ return {
         config = function()
             local dap = require('dap')
 
-            dap.adapters.coreclr = {
+            dap.adapters.netcoredbg = {
                 type = 'executable',
                 command = 'netcoredbg',
                 args = { '--interpreter=vscode' }
             }
 
-            dap.configurations.cs = {
+            dap.configurations.netcoredbg = {
                 {
                     type = "coreclr",
                     name = "launch - netcoredbg",
@@ -49,21 +49,22 @@ return {
             -- Debugging
             vim.keymap.set('n', '<leader>db', require("dap").toggle_breakpoint, { desc = 'Toggle breakpoint' })
             vim.keymap.set('n', '<leader>dc', require("dap").clear_breakpoints, { desc = 'Toggle breakpoint' })
+            vim.keymap.set('n', '<leader>dt', require("dap").terminate, { desc = 'Toggle breakpoint' })
             vim.keymap.set('n', '<leader>do', require("dapui").open, { desc = 'Open Debugger' })
             vim.keymap.set('n', '<F5>', require("dap").continue, { desc = 'Start/Continue debugging' })
-            vim.api.nvim_create_autocmd(
-                {
-                    "BufNewFile",
-                    "BufRead",
-                },
-                {
-                    pattern = "*.cs",
-                    callback = function()
-                        vim.keymap.set('n', '<F5>', pick_dll,
-                            { desc = 'Start/Continue debugging' })
-                    end
-                }
-            )
+            -- vim.api.nvim_create_autocmd(
+            --     {
+            --         "BufNewFile",
+            --         "BufRead",
+            --     },
+            --     {
+            --         pattern = "*.cs",
+            --         callback = function()
+            --             vim.keymap.set('n', '<F5>', pick_dll,
+            --                 { desc = 'Start/Continue debugging' })
+            --         end
+            --     }
+            -- )
         end
     },
     {
@@ -105,22 +106,24 @@ return {
                     {
                         elements = {
                             -- Elements can be strings or table with id and size keys.
-                            { id = "scopes", size = 0.25 },
-                            "breakpoints",
-                            "stacks",
-                            "watches",
+                            -- { id = "scopes", size = 0.7 },
+                            -- "breakpoints",
+                            -- "stacks",
+                            -- "watches",
+                            "scopes",
                         },
-                        size = 40, -- 40 columns
-                        position = "left",
-                    },
-                    {
-                        elements = {
-                            "repl",
-                            "console",
-                        },
-                        size = 0.25, -- 25% of total lines
+                        -- size = 40, -- 40 columns
+                        size = 0.35, -- 25% of total lines
                         position = "bottom",
                     },
+                    -- {
+                    --     elements = {
+                    --         "repl",
+                    --         "console",
+                    --     },
+                    --     size = 0.25, -- 25% of total lines
+                    --     position = "bottom",
+                    -- },
                 },
                 controls = {
                     -- Requires Neovim nightly (or 0.8 when released)
