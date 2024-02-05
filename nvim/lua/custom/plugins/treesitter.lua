@@ -12,13 +12,16 @@ return {
             'c_sharp',
             'css',
             'html',
+            'http',
             'javascript',
+            'json',
             'lua',
             'markdown',
             'markdown_inline',
             'typescript',
             'vim',
             'vimdoc',
+            'xml'
         },
 
         autotag = {
