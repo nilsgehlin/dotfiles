@@ -1,0 +1,4 @@
+#!/bin/bash
+
+report_path=coverage
+runedge file://wsl.localhost/Ubuntu/`pwd`/${report_path}/index.html

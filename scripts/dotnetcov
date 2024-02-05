@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cobertura_file=$(dotnet test --collect:"XPlat Code Coverage" | grep coverage.cobertura.xml | tr -d ' ')
+
+report_path=coverage
+reportgenerator -reports:"${cobertura_file}" -targetdir:"${report_path}" -reporttypes:Html
