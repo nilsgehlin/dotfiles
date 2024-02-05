@@ -32,7 +32,27 @@ return {
         opts = {},
         cmd = { "ZenMode" },
         keys = {
-            { "<leader>zz", "<CMD>ZenMode<CR>"},
+            { "<leader>zz", "<CMD>ZenMode<CR>" },
         },
     },
+    {
+        "folke/todo-comments.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        opts = {}
+    },
+    {
+        'windwp/nvim-ts-autotag',
+        ft = {
+            'html',
+            'javascriptreact',
+            'typescriptreact',
+            'svelte',
+            'vue',
+            'tsx',
+            'jsx',
+            'markdown',
+            'handlebars',
+            'hbs',
+        },
+    }
 }

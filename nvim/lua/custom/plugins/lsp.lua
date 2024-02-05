@@ -51,6 +51,8 @@ return {
 
             local servers = {
                 tsserver = {},
+                html = {},
+                cssls = {},
                 marksman = {},
                 lua_ls = {},
                 bicep = {},

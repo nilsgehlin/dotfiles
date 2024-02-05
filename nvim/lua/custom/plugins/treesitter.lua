@@ -7,14 +7,22 @@ return {
     opts = {
         -- Add languages to be installed here that you want installed for treesitter
         ensure_installed = {
-            'lua',
-            'vimdoc',
-            'vim',
             'bash',
             'bicep',
             'c_sharp',
+            'css',
+            'html',
+            'javascript',
+            'lua',
             'markdown',
             'markdown_inline',
+            'typescript',
+            'vim',
+            'vimdoc',
+        },
+
+        autotag = {
+            enable = true,
         },
 
         -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -94,7 +102,7 @@ return {
         vim.keymap.set('n', '<C-n>',
             function()
                 require("nvim-treesitter.textobjects.move").goto_next_start('@function.outer'); vim.api.nvim_feedkeys(
-                "zz", "n", false)
+                    "zz", "n", false)
             end)
         vim.keymap.set('n', '<C-p>',
             function()
