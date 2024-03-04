@@ -10,7 +10,7 @@ vim.opt.smartindent = true
 vim.opt.breakindent = true
 
 -- Enable concealing, used in Obisidan
-vim.opt.conceallevel = 3
+-- vim.opt.conceallevel = 3
 
 vim.o.hlsearch = false
 

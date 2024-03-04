@@ -50,13 +50,14 @@ return {
             })
 
             local servers = {
-                tsserver = {},
-                html = {},
-                cssls = {},
-                marksman = {},
-                lua_ls = {},
-                bicep = {},
                 bashls = {},
+                bicep = {},
+                cssls = {},
+                html = {},
+                lua_ls = {},
+                marksman = {},
+                tailwindcss = {},
+                tsserver = {},
             }
 
             local mason_lspconfig = require 'mason-lspconfig'

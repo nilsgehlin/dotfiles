@@ -2,30 +2,32 @@
   become: true
   apt:
     name:
-    - build-essential
-    - software-properties-common
-    - git
-    - cmake
-    - ninja-build
-    - curl
-    - wget
     - apt-transport-https
-    - zsh
-    - tmux
+    - bat
+    - build-essential
+    - ca-certificates
+    - cmake
+    - curl
+    - default-jdk
+    - exa
     - fd-find
-    - htop
-    - tree
-    - unzip
-    - gettext
-    - npm
-    - xclip
-    - ripgrep
     - fd-find
     - fzf
+    - gettext
+    - git
+    - gnupg
+    - htop
+    - lsb-release
+    - ninja-build
+    - npm
     - python3
     - python3-pip
     - python3-venv
-    - default-jdk
-    - exa
-    - bat
-    - podman
+    - ripgrep
+    - software-properties-common
+    - tmux
+    - tree
+    - unzip
+    - wget
+    - xclip
+    - zsh
