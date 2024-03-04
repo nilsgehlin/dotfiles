@@ -1,7 +1,7 @@
 - name: Cloning Neovim repo
   shell: git clone https://github.com/neovim/neovim.git neovim
   args:
-    chdir: /home/nige/projects/external/neovim
+    chdir: /home/nige/projects/external
     creates: /home/nige/projects/external/neovim 
 
 

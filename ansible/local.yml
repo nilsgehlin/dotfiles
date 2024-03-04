@@ -18,7 +18,6 @@
     - include_tasks: tasks/powershell.yml
     - include_tasks: tasks/azure-utils.yml
     - include_tasks: tasks/neovim.yml
-    - include_tasks: tasks/bicep-lsp.yml
     - include_tasks: tasks/curlie.yml
     - include_tasks: tasks/git-delta.yml
     - include_tasks: tasks/git-config.yml
