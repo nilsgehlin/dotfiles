@@ -2,21 +2,21 @@
 VIM="nvim"
 
 export PATH=$DOTFILES/scripts:$PATH
-export PATH=/opt/cisco/anyconnect/bin:$PATH
 export PATH=$HOME/.dotnet/tools:$PATH
 
 export DOTNET_ROOT=/usr/share/dotnet
 export PATH=$DOTNET_ROOT:$PATH
+export PATH=$HOME/bin:$PATH
 
 #aliases
 alias python=python3
 alias vim=$VIM
-alias vpnui=/opt/cisco/anyconnect/bin/vpnui
 alias fd=fdfind
 alias c='cd $((fd --type d | fzf) || echo ".")'
 # alias curl=~/.local/bin/curlie
 alias ls=exa
 alias cat=batcat
+alias gs=gitui
 
 bindkey -s ^f "tmux-sessionizer\n"
 
