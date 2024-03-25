@@ -1,11 +1,18 @@
 local on_attach = function(server_name)
-    return function(_, bufnr)
+    return function(client, bufnr)
         local format_cmd
         if (server_name == "fsautocomplete") then
             format_cmd = "<cmd>silent !fantomas %<CR>"
         else
             format_cmd = vim.lsp.buf.format
         end
+
+        if (server_name == "tsserver") then
+            client.server_capabilities.document_formatting = false
+        end
+
+        client.server_capabilities.semanticTokensProvider = nil
+
 
         vim.keymap.set('n', '<leader>f', format_cmd)
         vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
@@ -14,6 +21,7 @@ local on_attach = function(server_name)
         vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references)
         vim.keymap.set('n', 'gI', require('telescope.builtin').lsp_implementations)
         vim.keymap.set('n', '<leader>ds', require('telescope.builtin').lsp_document_symbols)
+        vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_workspace_symbols)
         vim.keymap.set('n', 'K', vim.lsp.buf.hover)
         vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help)
     end
@@ -58,6 +66,7 @@ return {
                 marksman = {},
                 tailwindcss = {},
                 tsserver = {},
+                eslint = {},
             }
 
             local mason_lspconfig = require 'mason-lspconfig'
@@ -71,7 +80,7 @@ return {
                         capabilities = capabilities,
                         on_attach = on_attach(server_name),
                         settings = servers[server_name],
-                        filetypes = (servers[server_name] or {}).filetypes,
+                        root_dir = function(_, _) return vim.fn.getcwd() end
                     }
                 end,
             }
