@@ -11,7 +11,6 @@
     - default-jdk
     - exa
     - fd-find
-    - fd-find
     - fzf
     - gettext
     - git

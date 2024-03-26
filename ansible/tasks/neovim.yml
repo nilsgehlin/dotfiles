@@ -1,18 +1,18 @@
 - name: Cloning Neovim repo
   shell: git clone https://github.com/neovim/neovim.git neovim
   args:
-    chdir: /home/nige/projects/external
-    creates: /home/nige/projects/external/neovim 
+    chdir: /home/nige302566/projects/external
+    creates: /home/nige302566/projects/external/neovim 
 
 
 - name: Updating Neovim repo
   shell: git pull
   args:
-    chdir: /home/nige/projects/external/neovim
+    chdir: /home/nige302566/projects/external/neovim
 
 - name: Build Neovim
   make:
-    chdir: /home/nige/projects/external/neovim
+    chdir: /home/nige302566/projects/external/neovim
     params:
       CMAKE_BUILD_TYPE: RelWithDebInfo
 
@@ -20,7 +20,7 @@
 - name: Install Neovim
   become: true
   make:
-    chdir: /home/nige/projects/external/neovim
+    chdir: /home/nige302566/projects/external/neovim
     target: install
 
 
