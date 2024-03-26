@@ -27,3 +27,7 @@ chsh -s $(which zsh)
 # Alacritty
 ln -sfn $wd/alacritty ~/.config/alacritty
 
+# i3
+ln -sfn $wd/i3 ~/.config/i3
+ln -sfn $wd/i3status ~/.config/i3status
+
