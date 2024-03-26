@@ -10,4 +10,9 @@ return {
 
     -- "gc" to comment visual regions/lines
     { 'numToStr/Comment.nvim', opts = {} },
+    -- using packer.nvim
+    {
+        'nmac427/guess-indent.nvim',
+        opts = {},
+    }
 }

@@ -7,8 +7,9 @@ local on_attach = function(server_name)
             format_cmd = vim.lsp.buf.format
         end
 
-        if (server_name == "tsserver") then
-            client.server_capabilities.document_formatting = false
+        if (server_name == "tsserver" or server_name == "eslint") then
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
         end
 
         client.server_capabilities.semanticTokensProvider = nil
