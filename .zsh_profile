@@ -15,7 +15,6 @@ alias fd=fdfind
 alias c='cd $((fd --type d | fzf) || echo ".")'
 # alias curl=~/.local/bin/curlie
 alias ls=exa
-alias cat=batcat
 alias gs=gitui
 
 bindkey -s ^f "tmux-sessionizer\n"
