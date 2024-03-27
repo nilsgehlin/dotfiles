@@ -1,12 +1,5 @@
 local on_attach = function(server_name)
     return function(client, bufnr)
-        local format_cmd
-        if (server_name == "fsautocomplete") then
-            format_cmd = "<cmd>silent !fantomas %<CR>"
-        else
-            format_cmd = vim.lsp.buf.format
-        end
-
         if (server_name == "tsserver" or server_name == "eslint") then
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false
@@ -14,8 +7,12 @@ local on_attach = function(server_name)
 
         client.server_capabilities.semanticTokensProvider = nil
 
+        vim.keymap.set('n', '<leader>f', vim.lsp.buf.format)
+        local fileType = vim.bo[bufnr].filetype
+        if (fileType == "javascript" or fileType == "typescript" or fileType == "javascriptreact" or fileType == "typescriptreact") then
+            vim.keymap.set('n', '<leader>f', "<cmd>Prettier<CR>")
+        end
 
-        vim.keymap.set('n', '<leader>f', format_cmd)
         vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
         vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
         vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions)

@@ -82,3 +82,21 @@ vim.api.nvim_create_autocmd('BufEnter', {
     pattern = '*',
     command = "syn match CR /\r$/ conceal"
 })
+
+-- vim.api.nvim_create_autocmd('BufEnter', {
+--     pattern = '*',
+--     command = "lua require('colorizer').attach_to_buffer(0, { mode = 'background', css = true})"
+-- })
+
+-- vim.api.nvim_create_autocmd('FileType', {
+--     pattern = {
+--         '*.js',
+--         '*.ts',
+--         '*.jsx',
+--         '*.tsx',
+--     },
+--     callback = function()
+--         vim.keymap.set('n', '<leader>f', function () vim.cmd("Prettier") end)
+--     end,
+--     group = generalSettingsGroup,
+-- })
