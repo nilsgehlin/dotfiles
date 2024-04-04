@@ -95,14 +95,16 @@ return {
                         luasnip.lsp_expand(args.body)
                     end,
                 },
+                experimental = {
+                    ghost_text = true,
+                },
                 mapping = cmp.mapping.preset.insert {
                     ['<C-n>'] = cmp.mapping.select_next_item(),
                     ['<C-p>'] = cmp.mapping.select_prev_item(),
                     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
                     ['<C-f>'] = cmp.mapping.scroll_docs(4),
                     ['<C-Space>'] = cmp.mapping.complete {},
-                    ['<CR>'] = cmp.mapping.confirm {
-                        behavior = cmp.ConfirmBehavior.Replace,
+                    ['<C-y>'] = cmp.mapping.confirm {
                         select = true,
                     },
                     ['<Tab>'] = cmp.mapping(function(fallback)
@@ -125,8 +127,13 @@ return {
                     end, { 'i', 's' }),
                 },
                 sources = {
-                    { name = 'nvim_lsp' },
-                    { name = 'luasnip' },
+                    { name = "luasnip",               max_item_count = 5,  group_index = 1 },
+                    { name = "nvim_lsp",              max_item_count = 20, group_index = 1 },
+                    { name = "nvim_lua",              group_index = 1 },
+                    { name = "vim-dadbod-completion", group_index = 1 },
+                    { name = "path",                  group_index = 2 },
+                    { name = "buffer",                keyword_length = 2,  max_item_count = 5, group_index = 2 },
+                    { name = 'copilot',               group_index = 1,     priority = 100, }
                 },
             }
         end
