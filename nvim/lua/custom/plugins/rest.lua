@@ -1,9 +1,16 @@
 return {
-    "rest-nvim/rest.nvim",
-    dependencies = { { "nvim-lua/plenary.nvim" } },
-    ft = { "http" },
-    config = function()
-        require("rest-nvim").setup({})
-        vim.keymap.set("n", "<leader>rr", "<Plug>RestNvim", { desc = "execute request" })
-    end
+    {
+        "vhyrro/luarocks.nvim",
+        priority = 1000,
+        config = true,
+    },
+    {
+        "rest-nvim/rest.nvim",
+        ft = "http",
+        dependencies = { "luarocks.nvim" },
+        config = function()
+            require("rest-nvim").setup()
+            vim.keymap.set("n", "<leader>rr", "<Plug>RestNvim", { desc = "execute request" })
+        end,
+    }
 }
