@@ -1,4 +1,4 @@
-require('nige')
+require('settings')
 
 -- Load plugins
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
