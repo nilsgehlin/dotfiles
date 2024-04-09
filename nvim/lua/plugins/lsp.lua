@@ -1,40 +1,29 @@
 local on_attach = function(server_name)
     return function(client, bufnr)
-        if (server_name == "tsserver" or server_name == "eslint") then
-            client.server_capabilities.documentFormattingProvider = false
-            client.server_capabilities.documentRangeFormattingProvider = false
-        end
+        local utils = require('utils')
 
         client.server_capabilities.semanticTokensProvider = nil
 
-        vim.keymap.set('n', '<leader>f', vim.lsp.buf.format)
-        local fileType = vim.bo[bufnr].filetype
-        if (fileType == "javascript" or fileType == "typescript" or fileType == "javascriptreact" or fileType == "typescriptreact") then
-            vim.keymap.set('n', '<leader>f', function()
-                local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-                local bufferContent = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n')
-
-                vim.system({ 'prettierd', vim.fn.expand('%') },
-                    { text = true, cwd = vim.fn.getcwd(), stdin = bufferContent },
-                    function(out)
-                        if (out.code == 0) then
-                            vim.schedule(function() vim.api.nvim_buf_set_lines(0, 0, -1, false,
-                                    vim.split(out.stdout, '\n')) end)
-                            vim.schedule(function() vim.api.nvim_win_set_cursor(0, { row, col }) end)
-                        end
-                    end)
-            end)
+        local format_cmd = vim.lsp.buf.format
+        local prettierFiletypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" }
+        for _, prettierFiletype in ipairs(prettierFiletypes) do
+            if (vim.bo[bufnr].filetype == prettierFiletype) then
+                format_cmd = utils.run_prettierd
+                break
+            end
         end
+        utils.map('<leader>f', format_cmd)
 
-        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
-        vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
-        vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions)
-        vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references)
-        vim.keymap.set('n', 'gI', require('telescope.builtin').lsp_implementations)
-        vim.keymap.set('n', '<leader>ds', require('telescope.builtin').lsp_document_symbols)
-        vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_workspace_symbols)
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover)
-        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help)
+        local ts = require('telescope.builtin')
+        utils.map('gd', ts.lsp_definitions)
+        utils.map('gr', ts.lsp_references)
+        utils.map('gI', ts.lsp_implementations)
+        utils.map('<leader>ds', ts.lsp_document_symbols)
+        utils.map('<leader>ws', ts.lsp_workspace_symbols)
+        utils.map('<leader>rn', vim.lsp.buf.rename)
+        utils.map('<leader>ca', vim.lsp.buf.code_action)
+        utils.map('K', vim.lsp.buf.hover)
+        utils.map('<C-k>', vim.lsp.buf.signature_help)
     end
 end
 
@@ -69,28 +58,26 @@ return {
             })
 
             local servers = {
-                bashls = {},
-                bicep = {},
-                cssls = {},
-                html = {},
-                lua_ls = {},
-                marksman = {},
-                tailwindcss = {},
-                tsserver = {},
-                eslint = {},
+                "bashls",
+                "bicep",
+                "cssls",
+                "html",
+                "lua_ls",
+                "marksman",
+                "tailwindcss",
+                "tsserver",
+                "eslint",
             }
 
             local mason_lspconfig = require 'mason-lspconfig'
-            mason_lspconfig.setup {
-                ensure_installed = vim.tbl_keys(servers),
-            }
+            mason_lspconfig.setup { ensure_installed = servers }
 
             mason_lspconfig.setup_handlers {
                 function(server_name)
                     require('lspconfig')[server_name].setup {
                         capabilities = capabilities,
                         on_attach = on_attach(server_name),
-                        settings = servers[server_name],
+                        settings = {},
                         root_dir = function(_, _) return vim.fn.getcwd() end
                     }
                 end,
