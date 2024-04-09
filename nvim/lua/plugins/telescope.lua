@@ -14,16 +14,16 @@ return {
         },
         config = function()
             pcall(require('telescope').load_extension, 'fzf')
-            local builtin = require('telescope.builtin')
+            local ts = require('telescope.builtin')
+            local map = require('utils').map
 
-            vim.keymap.set('n', '<leader>b', builtin.buffers)
-            vim.keymap.set('n', '<leader>sf', builtin.git_files)
-            vim.keymap.set('n', '<leader>sh', builtin.help_tags)
-            vim.keymap.set('n', '<leader>sw',
-                function() builtin.grep_string({ additional_args = { '--hidden', '-g', '!.git' } }) end)
-            vim.keymap.set('n', '<leader>sg',
-                function() builtin.live_grep({ additional_args = { '--hidden', '-g', '!.git' } }) end)
-            vim.keymap.set('n', '<leader>sm', builtin.man_pages)
+            local rg_args = { additional_args = { '--hidden', '-g', '!.git' } }
+            map('<leader>sw', function() ts.grep_string(rg_args) end)
+            map('<leader>sg', function() ts.live_grep(rg_args) end)
+            map('<leader>b', ts.buffers)
+            map('<leader>sf', ts.git_files)
+            map('<leader>sh', ts.help_tags)
+            map('<leader>sm', ts.man_pages)
         end
     },
 
