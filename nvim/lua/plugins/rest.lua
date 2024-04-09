@@ -10,7 +10,7 @@ return {
         dependencies = { "luarocks.nvim" },
         config = function()
             require("rest-nvim").setup()
-            vim.keymap.set("n", "<leader>rr", "<Plug>RestNvim", { desc = "execute request" })
+            require("utils").map("<leader>rr", "<Plug>RestNvim")
         end,
     }
 }
