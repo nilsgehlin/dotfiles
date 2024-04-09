@@ -37,11 +37,11 @@ return {
     {
         'williamboman/mason-lspconfig.nvim',
         dependencies = {
-            { 'neovim/nvim-lspconfig',        dev = false },
+            'neovim/nvim-lspconfig',
             'williamboman/mason.nvim',
-            { 'jmederosalvarado/roslyn.nvim', dev = false },
-            { 'j-hui/fidget.nvim',            tag = 'legacy', opts = {} },
-            { 'folke/neodev.nvim',            opts = {} }
+            'jmederosalvarado/roslyn.nvim',
+            { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+            { 'folke/neodev.nvim', opts = {} }
         },
         config = function()
             require('mason').setup()
@@ -57,20 +57,20 @@ return {
                 capabilities = capabilities,
             })
 
-            local servers = {
-                "bashls",
-                "bicep",
-                "cssls",
-                "html",
-                "lua_ls",
-                "marksman",
-                "tailwindcss",
-                "tsserver",
-                "eslint",
+            local mason_lspconfig = require('mason-lspconfig')
+            mason_lspconfig.setup {
+                ensure_installed = {
+                    "bashls",
+                    "bicep",
+                    "cssls",
+                    "html",
+                    "lua_ls",
+                    "marksman",
+                    "tailwindcss",
+                    "tsserver",
+                    "eslint",
+                }
             }
-
-            local mason_lspconfig = require 'mason-lspconfig'
-            mason_lspconfig.setup { ensure_installed = servers }
 
             mason_lspconfig.setup_handlers {
                 function(server_name)
