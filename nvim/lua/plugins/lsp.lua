@@ -63,12 +63,14 @@ return {
                     "bashls",
                     "bicep",
                     "cssls",
+                    "eslint",
                     "html",
+                    "jsonls",
+                    "lemminx",
                     "lua_ls",
                     "marksman",
                     "tailwindcss",
                     "tsserver",
-                    "eslint",
                 }
             }
 
