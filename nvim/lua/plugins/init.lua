@@ -10,7 +10,7 @@ return {
 
     },
     'tpope/vim-rhubarb',
-
+    'tpope/vim-sleuth',
     {
         "folke/trouble.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },

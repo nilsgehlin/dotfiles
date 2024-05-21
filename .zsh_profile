@@ -16,6 +16,7 @@ alias c='cd $((fd --type d | fzf) || echo ".")'
 # alias curl=~/.local/bin/curlie
 alias ls=exa
 alias gs=gitui
+eval $(thefuck --alias fk)
 
 bindkey -s ^f "tmux-sessionizer\n"
 

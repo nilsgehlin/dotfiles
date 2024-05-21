@@ -17,5 +17,8 @@
 	topiclgp = !sh -c \"git lfp $(git oldest-ancestor origin/$(echo $1 | sed -e 's|origin/||g') ${2:-master})..origin/$(echo $1 | sed -e 's|origin/||g')\" -
 	mergedtopicsintotopic = !sh -c \"git topiclgp $1 | grep Merge | sed -e 's/.*\\(SP-[0-9]*\\).*/\\1/g' | sort | uniq\" -
 	rmbranch = "!f(){ : branch git branch -d ${1}; git push origin --delete ${1}; };f"
+	rmb = "!f(){ : git push origin --delete ${1}; };f"
 [rerere]
 	enabled = true
+[pull]
+	rebase = true
