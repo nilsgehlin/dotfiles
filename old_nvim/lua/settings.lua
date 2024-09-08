@@ -1,6 +1,6 @@
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- Indenting
 vim.opt.tabstop = 4
@@ -18,9 +18,9 @@ vim.o.hlsearch = false
 vim.wo.number = true
 vim.wo.relativenumber = true
 
-vim.o.mouse = 'a'
+vim.o.mouse = "a"
 
-vim.o.clipboard = 'unnamedplus'
+vim.o.clipboard = "unnamedplus"
 
 -- Undo
 vim.opt.swapfile = false
@@ -32,22 +32,22 @@ vim.opt.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
-vim.wo.signcolumn = 'yes'
+vim.wo.signcolumn = "yes"
 
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
-vim.o.completeopt = 'menuone,noselect'
+vim.o.completeopt = "menuone,noselect"
 
 vim.o.termguicolors = true
 
 -- [[ Keymaps ]]
 
 -- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.keymap.set({ 'n', 'v' }, '<C-f>', '<Nop>', { silent = true })
+vim.keymap.set({ "n", "v" }, "<C-f>", "<Nop>", { silent = true })
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 vim.keymap.set("n", "<C-d>", "<C-d>M")
 vim.keymap.set("n", "<C-u>", "<C-u>M")
@@ -55,32 +55,34 @@ vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "<", "<gv")
-vim.keymap.set("n", "<leader>pv", function() require("oil").open(vim.fn.getcwd()) end)
+vim.keymap.set("n", "<leader>pv", function()
+	require("oil").open(vim.fn.getcwd())
+end)
 
 vim.keymap.set("n", "<leader>df", function()
-    local answer = vim.fn.input('Delete current file? y/n: ')
-    if answer == "y" then
-        vim.cmd("call delete(expand('%')) | bdelete!")
-    end
+	local answer = vim.fn.input("Delete current file? y/n: ")
+	if answer == "y" then
+		vim.cmd("call delete(expand('%')) | bdelete!")
+	end
 end)
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-    group = highlight_group,
-    pattern = '*',
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+	group = highlight_group,
+	pattern = "*",
 })
 
-vim.opt.concealcursor = 'nvic'
+vim.opt.concealcursor = "nvic"
 
 -- Concel \r in files with mixed line endings
-vim.api.nvim_create_autocmd('BufEnter', {
-    pattern = '*',
-    command = "syn match CR /\r$/ conceal"
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = "*",
+	command = "syn match CR /\r$/ conceal",
 })
 
 -- vim.api.nvim_create_autocmd('BufEnter', {
