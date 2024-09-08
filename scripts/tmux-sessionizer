@@ -30,7 +30,7 @@ if [[ -z $selected_dir ]]; then
 fi
 
 selected_dir="/home/$user_name/projects/$selected_dir"
-
+selected_name=$(echo $selected_name | sed 's/\./-/g')
 tmux_running=$(pgrep tmux)
 
 if [[ -z $tmux_running ]]; then

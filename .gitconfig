@@ -6,7 +6,7 @@
 	editor = nvim
 [alias]
 	l = log --graph --abbrev-commit --date=relative --pretty=format:'%C(auto)%h%Creset - %s %Cgreen(%cr) %C(bold blue)<%an>%Creset %C(auto)%d%Creset' -10
-	lb = l master..HEAD
+	lb = l main..HEAD
 	lfp = l --first-parent
 	m = merge --no-ff
 	tomerge = !sh -c 'git branch -r --no-merged ${2:-HEAD} | grep -Ev "HEAD" | grep -Ev \"(\\*|master|test|devtest)\" | grep ${1:-.}' -

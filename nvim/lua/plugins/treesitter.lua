@@ -15,6 +15,7 @@ return {
             'markdown',
             'markdown_inline',
             'typescript',
+            'tsx',
             'vim',
             'vimdoc',
             'xml'

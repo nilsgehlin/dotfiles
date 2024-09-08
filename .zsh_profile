@@ -17,6 +17,7 @@ alias c='cd $((fd --type d | fzf) || echo ".")'
 alias ls=exa
 alias gs=gitui
 eval $(thefuck --alias fk)
+alias journal='udisksctl mount -b /dev/sda && nvim /media/nige/nils-usb/journal/journal.md.cpt && udisksctl unmount -b /dev/sda'
 
 bindkey -s ^f "tmux-sessionizer\n"
 

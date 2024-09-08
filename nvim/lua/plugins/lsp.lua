@@ -21,7 +21,7 @@ local on_attach = function(server_name)
         utils.map('<leader>ds', ts.lsp_document_symbols)
         utils.map('<leader>ws', ts.lsp_workspace_symbols)
         utils.map('<leader>rn', vim.lsp.buf.rename)
-        utils.map('<leader>ca', vim.lsp.buf.code_action)
+        utils.map('<leader>ca', vim.lsp.buf.code_action, { "n", "x", "v" })
         utils.map('K', vim.lsp.buf.hover)
         utils.map('<C-k>', vim.lsp.buf.signature_help)
     end
@@ -70,9 +70,9 @@ return {
                     "lua_ls",
                     "marksman",
                     "tailwindcss",
-                    "tsserver",
                 }
             }
+
 
             mason_lspconfig.setup_handlers {
                 function(server_name)
@@ -138,6 +138,16 @@ return {
                     -- { name = 'copilot',               group_index = 1,     priority = 100, }
                 },
             }
+
+            local lspconfig = require('lspconfig')
+            lspconfig.eslint.setup {
+                -- Server-specific settings. See `:help lspconfig-setup`
+                settings = {
+                    workingDirectory = {
+                        mode = "location"
+                    }
+                },
+            }
         end
     },
     {
@@ -150,8 +160,18 @@ return {
         },
     },
     {
-        'ionide/Ionide-vim',
-        ft = "fsharp",
+        "pmizio/typescript-tools.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        opts = {
+            on_attach = function(client)
+                client.server_capabilities.documentFormattingProvider = false
+                client.server_capabilities.documentRangeFormattingProvider = false
+            end,
+            settings = {
+                expose_as_code_action = "all",
+                tsserver_max_memory = 8092,
+                separate_diagnostic_server = false,
+            }
+        },
     }
-
 }
