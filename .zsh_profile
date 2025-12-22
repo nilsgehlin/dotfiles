@@ -1,20 +1,19 @@
 #env variables
 VIM="nvim"
 
-export PATH=$DOTFILES/scripts:$PATH
-export PATH=$HOME/.dotnet/tools:$PATH
+# export PATH=$DOTFILES/scripts:$PATH
+# export PATH=$HOME/.dotnet/tools:$PATH
 
-export DOTNET_ROOT=/usr/share/dotnet
+export DOTNET_ROOT=/usr/local/share/dotnet
 export PATH=$DOTNET_ROOT:$PATH
-export PATH=$HOME/bin:$PATH
+# export PATH=$HOME/bin:$PATH
 
 #aliases
 alias python=python3
 alias vim=$VIM
-alias fd=fdfind
 alias c='cd $((fd --type d | fzf) || echo ".")'
 # alias curl=~/.local/bin/curlie
-# alias ls=exa
+# alias ls=exa  
 # alias gs=gitui
 # eval $(thefuck --alias fk)
 # alias journal='udisksctl mount -b /dev/sda && nvim /media/nige/nils-usb/journal/journal.md.cpt && udisksctl unmount -b /dev/sda'
