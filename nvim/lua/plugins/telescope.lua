@@ -5,4 +5,14 @@ return {
     { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
     { "<leader>sg", "<cmd>Telescope live_grep<cr>", desc = "Search Grep" },
   },
+  opts = {
+    pickers = {
+      find_files = {
+        hidden = true,
+      },
+      live_grep = {
+        hidden = true,
+      },
+    },
+  },
 }
