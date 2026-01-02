@@ -1,10 +1,9 @@
 #!/bin/bash
-user_name=`whoami`
+user_name=$(whoami)
 
 if [[ $# -eq 0 ]]; then
     possible_dirs=()
-    for dir in $(find -L ~/projects -mindepth 2 -maxdepth 2 -type d)
-    do
+    for dir in $(find -L ~/projects -mindepth 2 -maxdepth 2 -type d); do
         is_bare=$(GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git -C $dir rev-parse --is-bare-repository 2>/dev/null)
 
         if [ "$is_bare" != "true" ]; then
@@ -12,24 +11,23 @@ if [[ $# -eq 0 ]]; then
             continue
         fi
 
-        for branch in $(ls $dir/worktrees)
-        do
+        for branch in $(ls $dir/worktrees); do
             possible_dirs+=("$dir/$branch")
         done
     done
 
-    selected_name=$(printf '%s\n' "${possible_dirs[@]}" | sed "s/\/home\/$user_name\/projects\///g" | sed "s/.git\//->/g" | fzf)
+    selected_name=$(printf '%s\n' "${possible_dirs[@]}" | sed "s/\/Users\/$user_name\/projects\///g" | sed "s/.git\//->/g" | fzf)
     selected_dir=$(echo $selected_name | sed "s/->/.git\//g")
 else
     selected_dir=$1
-    selected_name=$(echo $selected_dir | sed "s/\/home\/$user_name\/projects\///g" | sed "s/.git\//->/g")
+    selected_name=$(echo $selected_dir | sed "s/\/Users\/$user_name\/projects\///g" | sed "s/.git\//->/g")
 fi
 
 if [[ -z $selected_dir ]]; then
     exit 0
 fi
 
-selected_dir="/home/$user_name/projects/$selected_dir"
+selected_dir="/Users/$user_name/projects/$selected_dir"
 selected_name=$(echo $selected_name | sed 's/\./-/g')
 tmux_running=$(pgrep tmux)
 
@@ -38,7 +36,7 @@ if [[ -z $tmux_running ]]; then
     exit 0
 fi
 
-if ! tmux has-session -t $selected_name 2> /dev/null; then
+if ! tmux has-session -t $selected_name 2>/dev/null; then
     tmux new-session -ds $selected_name -c $selected_dir
 fi
 
@@ -48,4 +46,3 @@ if [[ -z $TMUX ]]; then
 fi
 
 tmux switch-client -t $selected_name
-

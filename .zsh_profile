@@ -1,7 +1,7 @@
 #env variables
 VIM="nvim"
 
-# export PATH=$DOTFILES/scripts:$PATH
+export PATH=$DOTFILES/scripts:$PATH
 # export PATH=$HOME/.dotnet/tools:$PATH
 
 export DOTNET_ROOT=/usr/local/share/dotnet

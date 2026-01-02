@@ -11,7 +11,9 @@ return {
         hidden = true,
       },
       live_grep = {
-        hidden = true,
+        additional_args = function(_)
+          return { "--hidden", "-g", "!.git" }
+        end,
       },
     },
   },
