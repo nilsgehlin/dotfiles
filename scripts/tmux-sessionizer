@@ -1,48 +1,115 @@
 #!/bin/bash
-user_name=$(whoami)
 
-if [[ $# -eq 0 ]]; then
-    possible_dirs=()
-    for dir in $(find -L ~/projects -mindepth 2 -maxdepth 2 -type d); do
-        is_bare=$(GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git -C $dir rev-parse --is-bare-repository 2>/dev/null)
+PROJECTS_DIR="$HOME/projects"
+WORK_DIR="$PROJECTS_DIR/work"
 
-        if [ "$is_bare" != "true" ]; then
-            possible_dirs+=("$dir")
-            continue
-        fi
+gather_targets() {
+    # work/ directory: special handling for worktree repos
+    if [[ -d "$WORK_DIR" ]]; then
+        for repo_dir in "$WORK_DIR"/*/; do
+            [[ -d "$repo_dir" ]] || continue
 
-        for branch in $(ls $dir/worktrees); do
-            possible_dirs+=("$dir/$branch")
+            if [[ -d "${repo_dir}.bare" ]]; then
+                # Worktree repo: use git worktree list to find all worktrees
+                repo_name=$(basename "$repo_dir")
+                local wt_path="" is_bare=false
+                while IFS= read -r line; do
+                    if [[ "$line" == worktree\ * ]]; then
+                        wt_path="${line#worktree }"
+                        is_bare=false
+                    elif [[ "$line" == "bare" ]]; then
+                        is_bare=true
+                    elif [[ -z "$line" && -n "$wt_path" ]]; then
+                        # End of block — emit if not bare
+                        if ! $is_bare; then
+                            wt_basename=$(basename "$wt_path")
+                            display_path="work/$repo_name/$wt_basename"
+                            printf '%s\t%s\n' "$display_path" "$wt_path"
+                        fi
+                        wt_path=""
+                    fi
+                done < <(git -C "${repo_dir}.bare" worktree list --porcelain 2>/dev/null; echo)
+                # The trailing echo ensures the last block gets processed
+            else
+                # Regular directory in work/
+                display_path="${repo_dir%/}"
+                display_path="${display_path#$PROJECTS_DIR/}"
+                printf '%s\t%s\n' "$display_path" "${repo_dir%/}"
+            fi
+        done
+    fi
+
+    # All other categories (personal, external, etc.)
+    for category_dir in "$PROJECTS_DIR"/*/; do
+        [[ -d "$category_dir" ]] || continue
+        # Skip work/ — already handled above
+        [[ "$(basename "$category_dir")" == "work" ]] && continue
+        # Skip work_old/
+        [[ "$(basename "$category_dir")" == "work_old" ]] && continue
+
+        for project_dir in "$category_dir"*/; do
+            [[ -d "$project_dir" ]] || continue
+            display_path="${project_dir%/}"
+            display_path="${display_path#$PROJECTS_DIR/}"
+            printf '%s\t%s\n' "$display_path" "${project_dir%/}"
         done
     done
+}
 
-    selected_name=$(printf '%s\n' "${possible_dirs[@]}" | sed "s/\/Users\/$user_name\/projects\///g" | sed "s/.git\//->/g" | fzf)
-    selected_dir=$(echo $selected_name | sed "s/->/.git\//g")
+make_session_name() {
+    local display_path="$1"
+
+    # For work/ worktree entries (work/repo/branch) → repo/branch
+    if [[ "$display_path" == work/*/* ]]; then
+        session_name="${display_path#work/}"
+    else
+        session_name="$display_path"
+    fi
+
+    # Replace dots with dashes (tmux doesn't allow dots in session names)
+    session_name="${session_name//./-}"
+    # Strip trailing slash
+    session_name="${session_name%/}"
+
+    echo "$session_name"
+}
+
+if [[ $# -eq 0 ]]; then
+    # Build list and present with fzf
+    # Format: display_path<TAB>real_path — fzf shows only the first field
+    selected_entry=$(gather_targets | fzf --delimiter=$'\t' --with-nth=1)
+
+    [[ -z "$selected_entry" ]] && exit 0
+
+    # Parse display_path<TAB>real_path
+    selected_display="${selected_entry%%	*}"
+    selected_dir="${selected_entry#*	}"
+    
+    selected_name=$(make_session_name "$selected_display")
 else
-    selected_dir=$1
-    selected_name=$(echo $selected_dir | sed "s/\/Users\/$user_name\/projects\///g" | sed "s/.git\//->/g")
+    selected_dir="$1"
+    selected_display="${selected_dir#$PROJECTS_DIR/}"
+    selected_name=$(make_session_name "$selected_display")
 fi
 
-if [[ -z $selected_dir ]]; then
+if [[ -z "$selected_dir" ]]; then
     exit 0
 fi
 
-selected_dir="/Users/$user_name/projects/$selected_dir"
-selected_name=$(echo $selected_name | sed 's/\./-/g')
 tmux_running=$(pgrep tmux)
 
-if [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -c $selected_dir
+if [[ -z "$tmux_running" ]]; then
+    tmux new-session -s "$selected_name" -c "$selected_dir"
     exit 0
 fi
 
-if ! tmux has-session -t $selected_name 2>/dev/null; then
-    tmux new-session -ds $selected_name -c $selected_dir
+if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+    tmux new-session -ds "$selected_name" -c "$selected_dir"
 fi
 
-if [[ -z $TMUX ]]; then
-    tmux attach -t $selected_name -c $selected_dir
+if [[ -z "$TMUX" ]]; then
+    tmux attach -t "$selected_name"
     exit 0
 fi
 
-tmux switch-client -t $selected_name
+tmux switch-client -t "$selected_name"

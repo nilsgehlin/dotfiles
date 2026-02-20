@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# wt-branch: Create a new worktree for a branch
+# Usage: wt-branch <branch-name>
+# Run from a repo directory (e.g. ~/projects/work/ecommerce/)
+
+set -e
+
+if [[ $# -eq 0 ]]; then
+    echo "Usage: wt-branch <branch-name>"
+    exit 1
+fi
+
+BRANCH=$1
+REPO_DIR=$(git rev-parse --git-common-dir 2>/dev/null | sed 's|/\.bare$||')
+
+if [[ -z "$REPO_DIR" || "$REPO_DIR" == "--git-common-dir" ]]; then
+    echo "Error: Not inside a git repository"
+    exit 1
+fi
+
+WORKTREE_DIR="$REPO_DIR/$BRANCH"
+
+if [[ -d "$WORKTREE_DIR" ]]; then
+    echo "Error: Directory '$WORKTREE_DIR' already exists"
+    exit 1
+fi
+
+# Check if local branch already exists
+if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
+    echo "Creating worktree for existing local branch '$BRANCH'..."
+    git worktree add "$WORKTREE_DIR" "$BRANCH"
+# Check if remote branch exists
+elif git show-ref --verify --quiet "refs/remotes/origin/$BRANCH"; then
+    echo "Creating worktree for existing remote branch '$BRANCH'..."
+    git worktree add -b "$BRANCH" --track "$WORKTREE_DIR" "origin/$BRANCH"
+else
+    echo "Creating worktree for new branch '$BRANCH'..."
+    git worktree add -b "$BRANCH" "$WORKTREE_DIR"
+fi
+
+echo ""
+echo "✓ Worktree created: $WORKTREE_DIR"

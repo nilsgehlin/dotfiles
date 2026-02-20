@@ -1,0 +1,92 @@
+#!/bin/bash
+
+# wt-clone: Clone a git repository with bare clone + worktree structure
+# Usage: wt-clone <git-url> [target-dir]
+
+set -e
+
+# Check for git URL argument
+if [[ $# -eq 0 ]]; then
+    echo "Usage: wt-clone <git-url> [target-dir]"
+    echo ""
+    echo "Example:"
+    echo "  wt-clone git@github.com:org/repo.git"
+    echo "  wt-clone git@github.com:org/repo.git my-repo"
+    exit 1
+fi
+
+GIT_URL=$1
+WORKSPACE_ROOT="$HOME/projects/work"
+
+# Determine target directory name
+if [[ $# -eq 2 ]]; then
+    REPO_NAME=$2
+else
+    # Extract repo name from URL (strip .git suffix, take last path segment)
+    REPO_NAME=$(basename "$GIT_URL" .git)
+fi
+
+REPO_DIR="$WORKSPACE_ROOT/$REPO_NAME"
+BARE_DIR="$REPO_DIR/.bare"
+
+# Check if target directory already exists
+if [[ -d "$REPO_DIR" ]]; then
+    echo "Error: Directory '$REPO_DIR' already exists"
+    exit 1
+fi
+
+echo "Cloning '$GIT_URL' into '$REPO_DIR'..."
+
+# Create repo directory
+mkdir -p "$REPO_DIR"
+
+# Bare clone into .bare/
+git clone --bare "$GIT_URL" "$BARE_DIR"
+
+# Write .git file pointing to .bare
+echo "gitdir: ./.bare" > "$REPO_DIR/.git"
+
+# Configure fetch refspec for bare repo to use remotes/origin
+cd "$REPO_DIR"
+git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+
+# Detect default branch from HEAD (before cleaning up local refs)
+DEFAULT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+if [[ -z "$DEFAULT_BRANCH" ]]; then
+    # Fallback: try common default branch names
+    if git show-ref --verify --quiet refs/heads/main; then
+        DEFAULT_BRANCH="main"
+    elif git show-ref --verify --quiet refs/heads/master; then
+        DEFAULT_BRANCH="master"
+    else
+        echo "Error: Could not detect default branch"
+        exit 1
+    fi
+fi
+
+# Fetch to populate refs/remotes/origin/*
+git fetch origin
+
+# Remove local branches created by bare clone (silently)
+git for-each-ref --format='%(refname:short)' refs/heads | xargs -r -n 1 git branch -D > /dev/null 2>&1 || true
+
+# Create first worktree for default branch (tracking origin)
+WORKTREE_DIR="$REPO_DIR/$DEFAULT_BRANCH"
+git worktree add -b "$DEFAULT_BRANCH" --track "$WORKTREE_DIR" "origin/$DEFAULT_BRANCH"
+
+echo ""
+echo "✓ Repository cloned successfully!"
+echo ""
+echo "Structure:"
+echo "  $REPO_DIR/"
+echo "  ├── .bare/           # bare git clone"
+echo "  ├── .git             # pointer to .bare"
+echo "  └── $DEFAULT_BRANCH/          # worktree on default branch"
+echo ""
+echo "To create a new worktree:"
+echo "  cd $REPO_DIR"
+echo "  git worktree add feature-name branch-name"
+echo ""
+echo "To start a tmux session:"
+echo "  tmux new-session -s \"$REPO_NAME/$DEFAULT_BRANCH\" -c \"$WORKTREE_DIR\""
