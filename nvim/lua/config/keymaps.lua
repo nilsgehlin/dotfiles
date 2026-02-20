@@ -4,3 +4,4 @@
 
 vim.keymap.set({ "n", "v" }, "<C-f>", "<Nop>", { silent = true })
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+vim.keymap.set("i", "jj", "<Esc>")

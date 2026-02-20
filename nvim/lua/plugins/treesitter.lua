@@ -1,6 +1,9 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   opts = {
-    ensure_installed = { "bicep" },
+    ensure_installed = {
+      "bicep",
+      "editorconfig",
+    },
   },
 }

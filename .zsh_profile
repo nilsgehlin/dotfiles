@@ -12,6 +12,10 @@ export PATH=$DOTNET_ROOT:$PATH
 alias python=python3
 alias vim=$VIM
 alias c='cd $((fd --type d | fzf) || echo ".")'
+alias oc='opencode attach http://127.0.0.1:51254/ --dir "$(git rev-parse --show-toplevel 2>/dev/null || pwd)"'
+
+export EDITOR=$VIM
+
 # alias curl=~/.local/bin/curlie
 # alias ls=exa  
 # alias gs=gitui

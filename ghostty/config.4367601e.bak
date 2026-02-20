@@ -1,3 +1,2 @@
 background = 1f1f28
 foreground = dCd7ba
-keybind = shift+enter=text:\x1b\r
