@@ -31,3 +31,4 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Added by get-aspire-cli.sh
 export PATH="$HOME/.aspire/bin:$PATH"
+export LESS="--mouse -R"

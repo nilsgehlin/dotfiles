@@ -1,48 +1,85 @@
 #!/bin/bash
 user_name=$(whoami)
+projects_dir="/Users/$user_name/projects"
 
 if [[ $# -eq 0 ]]; then
-    possible_dirs=()
-    for dir in $(find -L ~/projects -mindepth 2 -maxdepth 2 -type d); do
-        is_bare=$(GIT_DISCOVERY_ACROSS_FILESYSTEM=1 git -C $dir rev-parse --is-bare-repository 2>/dev/null)
+    display_names=()
+    actual_dirs=()
 
-        if [ "$is_bare" != "true" ]; then
-            possible_dirs+=("$dir")
+    for dir in $(find -L ~/projects -mindepth 2 -maxdepth 2 -type d); do
+        if ! git -C "$dir" rev-parse --git-dir &>/dev/null; then
             continue
         fi
 
-        for branch in $(ls $dir/worktrees); do
-            possible_dirs+=("$dir/$branch")
-        done
+        # Only process the main worktree, not linked worktrees
+        main_worktree=$(git -C "$dir" worktree list --porcelain | grep '^worktree ' | head -1 | awk '{print $2}')
+        if [[ "$dir" != "$main_worktree" ]]; then
+            continue
+        fi
+
+        repo_name=$(echo "$dir" | sed "s|$projects_dir/||g")
+
+        first=true
+        current_path=""
+        branch=""
+
+        while IFS= read -r line; do
+            if [[ "$line" == worktree\ * ]]; then
+                current_path="${line#worktree }"
+            elif [[ "$line" == branch\ * ]]; then
+                branch="${line#branch refs/heads/}"
+            elif [[ -z "$line" && -n "$current_path" ]]; then
+                if [[ "$first" == true ]]; then
+                    display_names+=("$repo_name")
+                    actual_dirs+=("$current_path")
+                    first=false
+                else
+                    display_names+=("$repo_name:$branch")
+                    actual_dirs+=("$current_path")
+                fi
+                current_path=""
+                branch=""
+            fi
+        done < <(git -C "$dir" worktree list --porcelain; echo)
     done
 
-    selected_name=$(printf '%s\n' "${possible_dirs[@]}" | sed "s/\/Users\/$user_name\/projects\///g" | sed "s/.git\//->/g" | fzf)
-    selected_dir=$(echo $selected_name | sed "s/->/.git\//g")
+    selected_name=$(printf '%s\n' "${display_names[@]}" | sort | fzf)
+
+    if [[ -z "$selected_name" ]]; then
+        exit 0
+    fi
+
+    selected_dir=""
+    for i in "${!display_names[@]}"; do
+        if [[ "${display_names[$i]}" == "$selected_name" ]]; then
+            selected_dir="${actual_dirs[$i]}"
+            break
+        fi
+    done
 else
     selected_dir=$1
-    selected_name=$(echo $selected_dir | sed "s/\/Users\/$user_name\/projects\///g" | sed "s/.git\//->/g")
+    selected_name=$(echo "$selected_dir" | sed "s|$projects_dir/||g")
 fi
 
-if [[ -z $selected_dir ]]; then
+if [[ -z "$selected_dir" ]]; then
     exit 0
 fi
 
-selected_dir="/Users/$user_name/projects/$selected_dir"
-selected_name=$(echo $selected_name | sed 's/\./-/g')
+session_name=$(echo "$selected_name" | sed 's/[\.\/:]/-/g')
 tmux_running=$(pgrep tmux)
 
 if [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -c $selected_dir
+    tmux new-session -s "$session_name" -c "$selected_dir"
     exit 0
 fi
 
-if ! tmux has-session -t $selected_name 2>/dev/null; then
-    tmux new-session -ds $selected_name -c $selected_dir
+if ! tmux has-session -t "$session_name" 2>/dev/null; then
+    tmux new-session -ds "$session_name" -c "$selected_dir"
 fi
 
 if [[ -z $TMUX ]]; then
-    tmux attach -t $selected_name -c $selected_dir
+    tmux attach -t "$session_name" -c "$selected_dir"
     exit 0
 fi
 
-tmux switch-client -t $selected_name
+tmux switch-client -t "$session_name"

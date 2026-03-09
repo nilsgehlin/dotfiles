@@ -8,6 +8,15 @@ export DOTNET_ROOT=/usr/local/share/dotnet
 export PATH=$DOTNET_ROOT:$PATH
 # export PATH=$HOME/bin:$PATH
 
+# wta: add a worktree for an existing or new branch, with branch name tab completion
+wta() {
+  if git show-ref --verify --quiet refs/heads/${1} || git show-ref --verify --quiet refs/remotes/origin/${1}; then
+    git worktree add ~/projects/.worktree/${1} ${1}
+  else
+    git worktree add ~/projects/.worktree/${1} -b ${1}
+  fi
+}
+
 #aliases
 alias python=python3
 alias vim=$VIM
