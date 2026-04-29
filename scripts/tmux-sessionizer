@@ -73,13 +73,13 @@ if [[ -z $tmux_running ]]; then
     exit 0
 fi
 
-if ! tmux has-session -t "$session_name" 2>/dev/null; then
+if ! tmux has-session -t "=$session_name" 2>/dev/null; then
     tmux new-session -ds "$session_name" -c "$selected_dir"
 fi
 
 if [[ -z $TMUX ]]; then
-    tmux attach -t "$session_name" -c "$selected_dir"
+    tmux attach -t "=$session_name" -c "$selected_dir"
     exit 0
 fi
 
-tmux switch-client -t "$session_name"
+tmux switch-client -t "=$session_name"
