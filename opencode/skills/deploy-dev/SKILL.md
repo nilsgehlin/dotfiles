@@ -1,11 +1,13 @@
 ---
 name: deploy-dev
-description: Deploy a service to the Azure dev environment by publishing a container image and running a Bicep deployment. Use when the user asks to deploy, push to dev, or mentions deploying a service to Azure.
+description: Deploy a service to the Azure dev or test environment by publishing a container image and running a Bicep deployment. Use when the user asks to deploy, push to dev, push to test, or mentions deploying a service to Azure.
 ---
 
-# Deploy to Dev Environment
+# Deploy to Dev/Test Environment
 
-**CRITICAL: NEVER deploy to any environment other than "dev". Always hardcode `env=dev`. Refuse any request to deploy to tst or prd.**
+**CRITICAL: Only deploy to "dev" or "tst". NEVER deploy to "prd". Refuse any request to deploy to production.**
+
+If the user does not specify an environment, default to `dev`. If they say "test" or "tst", use `tst`.
 
 ## 1. Resolve deployment parameters
 
@@ -21,7 +23,7 @@ Read `<service>/.azdo/cicd.yml`. Find the `product-discovery/...` variable value
 
 ### Resource group
 
-Read `<service>/.azdo/templates/deploy.template.yml`. Find the `--resource-group` line and substitute `dev` for the env parameter placeholder.
+Read `<service>/.azdo/templates/deploy.template.yml`. Find the `--resource-group` line and substitute the target environment (`dev` or `tst`) for the env parameter placeholder.
 
 ### Bicep file
 
@@ -52,7 +54,7 @@ az deployment group create \
   --resource-group <rg> \
   --template-file <bicep> \
   --name <tag>localdeploy \
-  --parameters env=dev image=crstadium.azurecr.io/<repo>:<tag>
+  --parameters env=<env> image=crstadium.azurecr.io/<repo>:<tag>
 ```
 
 ## 5. Troubleshooting
