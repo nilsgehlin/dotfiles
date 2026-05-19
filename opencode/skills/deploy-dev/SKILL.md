@@ -31,7 +31,7 @@ List `<service>/deploy/*ContainerApp.bicep` and pick the file that matches the c
 
 ### Image tag
 
-Always use `nils`.
+Generate a tag in the format `nils-<suffix>` where `<suffix>` is a random 6-character lowercase alphanumeric string. For example: `nils-a3f2b1`. Generate this using: `$(cat /dev/urandom | LC_ALL=C tr -dc 'a-z0-9' | head -c 6)`.
 
 ## 2. Confirm with user
 
