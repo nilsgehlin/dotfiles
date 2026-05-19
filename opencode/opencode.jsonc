@@ -83,5 +83,14 @@
       }
     }
   },
+  "agent": {
+    "plan": {
+      "model": "azure-anthropic/claude-opus-4-6"
+    },
+    "build": {
+      "model": "azure-foundry-openai/gpt-5.3-codex",
+      "temperature": 0.3
+    }
+  },
   "shell": "zsh",
 }
