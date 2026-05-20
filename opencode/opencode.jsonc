@@ -85,10 +85,12 @@
   },
   "agent": {
     "plan": {
-      "model": "azure-anthropic/claude-opus-4-6"
+      "model": "azure-anthropic/claude-opus-4-6",
+      "variant": "default"
     },
     "build": {
       "model": "azure-foundry-openai/gpt-5.3-codex",
+      "variant": "default",
       "temperature": 0.3
     }
   },
