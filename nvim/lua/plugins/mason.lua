@@ -7,6 +7,7 @@ return {
     },
     ensure_installed = {
       "roslyn",
+      "oxfmt",
     },
   },
 }
