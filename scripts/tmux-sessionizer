@@ -6,18 +6,25 @@ if [[ $# -eq 0 ]]; then
     display_names=()
     actual_dirs=()
 
-    for dir in $(find -L ~/projects -mindepth 2 -maxdepth 2 -type d); do
-        if ! git -C "$dir" rev-parse --git-dir &>/dev/null; then
+    while IFS= read -r dir; do
+        repo_name="${dir#$projects_dir/}"
+        worktrees_dir="$dir/.git/worktrees"
+
+        # Fast path: no linked worktrees, skip git call entirely
+        if [[ ! -d "$worktrees_dir" ]] || [[ -z "$(ls -A "$worktrees_dir" 2>/dev/null)" ]]; then
+            display_names+=("$repo_name")
+            actual_dirs+=("$dir")
             continue
         fi
 
+        # Slow path: has worktrees, need git to enumerate them
+        worktree_output=$(git -C "$dir" worktree list --porcelain 2>/dev/null) || continue
+
         # Only process the main worktree, not linked worktrees
-        main_worktree=$(git -C "$dir" worktree list --porcelain | grep '^worktree ' | head -1 | awk '{print $2}')
+        main_worktree=$(echo "$worktree_output" | awk '/^worktree /{print $2; exit}')
         if [[ "$dir" != "$main_worktree" ]]; then
             continue
         fi
-
-        repo_name=$(echo "$dir" | sed "s|$projects_dir/||g")
 
         first=true
         current_path=""
@@ -40,8 +47,8 @@ if [[ $# -eq 0 ]]; then
                 current_path=""
                 branch=""
             fi
-        done < <(git -C "$dir" worktree list --porcelain; echo)
-    done
+        done < <(echo "$worktree_output"; echo)
+    done < <(fd -L -H --type d --min-depth 3 --max-depth 3 '^\.git$' ~/projects -x echo {//})
 
     selected_name=$(printf '%s\n' "${display_names[@]}" | sort | fzf)
 

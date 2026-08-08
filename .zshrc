@@ -1,30 +1,55 @@
-export ZSH="$HOME/.oh-my-zsh"
 export DOTFILES=$HOME/projects/personal/dotfiles
 
-#export BROWSER=/home/nige/bin/runedge.sh
+# Prompt with git branch
+autoload -Uz add-zsh-hook
+_git_branch() {
+  local branch
+  branch=$(git symbolic-ref --short HEAD 2>/dev/null) || return
+  local dirty=""
+  git diff --quiet --ignore-submodules 2>/dev/null || dirty=" ✗"
+  echo " %F{blue}(%F{yellow}${branch}%F{blue})%F{yellow}${dirty}%f"
+}
+setopt PROMPT_SUBST
+PROMPT='%(?.%B%F{green}➜ .%B%F{red}➜ )%f%b%F{cyan}%c%f$(_git_branch) '
 
-ZSH_THEME="nige"
+# Completions - only regenerate once per day
+autoload -Uz compinit
+if [[ -f ~/.zcompdump(#qN.mh+24) ]] || [[ ! -f ~/.zcompdump ]]; then
+  compinit
+else
+  compinit -C
+fi
+zstyle ':completion:*' special-dirs true
 
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
+# Search history using the text already entered at the prompt.
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+bindkey '^[OA' up-line-or-beginning-search
+bindkey '^[OB' down-line-or-beginning-search
 
 source $DOTFILES/.zsh_profile
 
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# fnm - cached for speed, regenerate with: fnm env --use-on-cd --shell zsh > ~/.cache/fnm-env.zsh
+FNM_CACHE="$HOME/.cache/fnm-env.zsh"
+if [[ ! -f "$FNM_CACHE" ]]; then
+  mkdir -p "$HOME/.cache"
+  fnm env --use-on-cd --shell zsh > "$FNM_CACHE"
+fi
+source "$FNM_CACHE"
 
 export PATH="$PATH:/Users/Nils.Gehlin/.dotnet/tools"
 
 # pnpm
 export PNPM_HOME="/Users/Nils.Gehlin/Library/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
 # pnpm end
 export PATH="$HOME/.local/bin:$PATH"

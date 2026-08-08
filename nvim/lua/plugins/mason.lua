@@ -6,7 +6,7 @@ return {
       "github:Crashdummyy/mason-registry",
     },
     ensure_installed = {
-      "roslyn",
+      "roslyn-language-server",
       "oxfmt",
     },
   },
