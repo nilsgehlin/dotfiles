@@ -10,7 +10,11 @@ _git_branch() {
   echo " %F{blue}(%F{yellow}${branch}%F{blue})%F{yellow}${dirty}%f"
 }
 setopt PROMPT_SUBST
-PROMPT='%(?.%B%F{green}➜ .%B%F{red}➜ )%f%b%F{cyan}%c%f$(_git_branch) '
+if [[ -n "$SSH_CONNECTION" ]]; then
+  PROMPT='%K{yellow}%F{black} %m %f%k %(?.%B%F{green}➜ .%B%F{red}➜ )%f%b%F{cyan}%c%f$(_git_branch) '
+else
+  PROMPT='%(?.%B%F{green}➜ .%B%F{red}➜ )%f%b%F{cyan}%c%f$(_git_branch) '
+fi
 
 # Completions - only regenerate once per day
 autoload -Uz compinit
