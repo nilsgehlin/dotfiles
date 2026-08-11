@@ -1,2 +1,0 @@
-- name: Install fsautocomplete (F# LSP)
-  shell: 'dotnet tool install -g fsautocomplete || echo done'
