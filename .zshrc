@@ -1,4 +1,4 @@
-export DOTFILES=$HOME/projects/personal/dotfiles
+export DOTFILES="$HOME/projects/personal/dotfiles"
 
 # Prompt with git branch
 autoload -Uz add-zsh-hook
@@ -30,23 +30,33 @@ bindkey '^[[B' down-line-or-beginning-search
 bindkey '^[OA' up-line-or-beginning-search
 bindkey '^[OB' down-line-or-beginning-search
 
-source $DOTFILES/.zsh_profile
+if (( ! $+commands[fd] && $+commands[fdfind] )); then
+  alias fd=fdfind
+fi
+
+source "$DOTFILES/.zsh_profile"
 
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
 # fnm - cached for speed, regenerate with: fnm env --use-on-cd --shell zsh > ~/.cache/fnm-env.zsh
 FNM_CACHE="$HOME/.cache/fnm-env.zsh"
-if [[ ! -f "$FNM_CACHE" ]]; then
-  mkdir -p "$HOME/.cache"
-  fnm env --use-on-cd --shell zsh > "$FNM_CACHE"
+if (( $+commands[fnm] )); then
+  if [[ ! -f "$FNM_CACHE" ]]; then
+    mkdir -p "$HOME/.cache"
+    fnm env --use-on-cd --shell zsh > "$FNM_CACHE"
+  fi
+  source "$FNM_CACHE"
 fi
-source "$FNM_CACHE"
 
-export PATH="$PATH:/Users/Nils.Gehlin/.dotnet/tools"
+export PATH="$PATH:$HOME/.dotnet/tools"
 
 # pnpm
-export PNPM_HOME="/Users/Nils.Gehlin/Library/pnpm"
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  export PNPM_HOME="$HOME/Library/pnpm"
+else
+  export PNPM_HOME="$HOME/.local/share/pnpm"
+fi
 case ":$PATH:" in
   *":$PNPM_HOME/bin:"*) ;;
   *) export PATH="$PNPM_HOME/bin:$PATH" ;;

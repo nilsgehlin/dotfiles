@@ -1,6 +1,11 @@
 #!/bin/bash
-user_name=$(whoami)
-projects_dir="/Users/$user_name/projects"
+projects_dir="$HOME/projects"
+fd_command=$(command -v fd || command -v fdfind)
+
+if [[ -z "$fd_command" ]]; then
+    echo "tmux-sessionizer requires fd or fdfind" >&2
+    exit 1
+fi
 
 if [[ $# -eq 0 ]]; then
     display_names=()
@@ -48,7 +53,7 @@ if [[ $# -eq 0 ]]; then
                 branch=""
             fi
         done < <(echo "$worktree_output"; echo)
-    done < <(fd -L -H --type d --min-depth 3 --max-depth 3 '^\.git$' ~/projects -x echo {//})
+    done < <("$fd_command" -L -H --type d --min-depth 3 --max-depth 3 '^\.git$' "$projects_dir" -x echo {//})
 
     selected_name=$(printf '%s\n' "${display_names[@]}" | sort | fzf)
 
