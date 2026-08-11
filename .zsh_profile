@@ -24,7 +24,8 @@ alias lg=lazygit
 alias gst='git status'
 alias ll='ls -l'
 alias c='cd $((fd --type d | fzf) || echo ".")'
-alias oc='opencode attach http://127.0.0.1:51254/ --dir "$(git rev-parse --show-toplevel 2>/dev/null || pwd)"'
+alias oc='opencode'
+alias vc='vercel'
 
 export EDITOR=$VIM
 
